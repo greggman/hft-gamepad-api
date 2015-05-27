@@ -1,3 +1,13 @@
+/**
+ * @license HappyFunTimes 0.0.2 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+ * Available via the MIT license.
+ * see: http://github.com/greggman/happyfuntimes for details
+ */
+/**
+ * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/almond for details
+ */
 (function (root, factory) {
     if (false && typeof define === 'function' && define.amd) {
         define([], factory);
@@ -708,6 +718,7 @@ define('hftctrl/controller-support',[
 
     var gamepads = [];          // HFT gamepads
     var combinedGamepads = [];  // both native and HFT gamepads
+    var hftOptions = {};
 
     // wrap navigator.getGamepads
     var originalGetGamepads = window.navigator.getGamepads.bind(navigator);
@@ -739,7 +750,6 @@ define('hftctrl/controller-support',[
 
         window.buttons = window.buttons || [];
 
-        var hftOptions;
         var script = document.querySelector("script[hft-options]");
         if (script) {
           try {
@@ -758,9 +768,9 @@ define('hftctrl/controller-support',[
          * @param {string} [controllerType] what type controller. Valid types are
          *    "1button", "2button", "1dpad-1button", "1dpad-2button", "1dpad", "2dpad".
          *    Default = 1dpad-2button".
-         * @param {boolean} dpadToAxes Copy dpad values to axes values. Default = true;
-         * @param {boolean} axesOnly Dpad values show up as axes, not dpad at all.
-         * @param {boolean} reportMapping If true Gamepad.mapping will be `happyfuntimes-<controllerType>`.
+         * @param {boolean} [dpadToAxes] Copy dpad values to axes values. Default = true;
+         * @param {boolean} [axesOnly] Dpad values show up as axes, not dpad at all.
+         * @param {boolean} [reportMapping] If true Gamepad.mapping will be `happyfuntimes-<controllerType>`.
          *    Default = false in which case Gamepad.mapping will be `standard`.
          */
 
