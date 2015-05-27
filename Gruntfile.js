@@ -1,5 +1,32 @@
 "use strict";
 
+var fs      = require('fs');
+var semver  = require('semver');
+var strings = require('./build/js/strings');
+
+var license = [
+'/**                                                                                         ',
+' * @license HappyFunTimes %(version)s Copyright (c) 2015, Gregg Tavares All Rights Reserved.',
+' * Available via the MIT license.                                                           ',
+' * see: http://github.com/greggman/happyfuntimes for details                                ',
+' */                                                                                         ',
+'/**                                                                                         ',
+' * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.  ',
+' * Available via the MIT or new BSD license.                                                ',
+' * see: http://github.com/jrburke/almond for details                                        ',
+' */                                                                                         ',
+'',
+].map(function(s) { return s.replace(/\s+$/, ''); }).join("\n");
+
+// We need to insert the version we expect to ship
+// because `bower version patch` will inc the version
+// and tag the repo.
+var bower = JSON.parse(fs.readFileSync("bower.json", {encoding: "utf8"}));
+var bowerInfo = {
+  version: semver.inc(bower.version, "patch"),
+}
+license = strings.replaceParams(license, bowerInfo);
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -27,7 +54,7 @@ module.exports = function(grunt) {
           out: "dist/happyfuntimes-gamepad-emu.js",
           optimize: "none",
           wrap: {
-            startFile: 'build/js/start.js',
+            start: license + fs.readFileSync('build/js/start.js', {encoding: "utf8"}),
             endFile: 'build/js/end.js',
           },
           paths: {
@@ -41,7 +68,7 @@ module.exports = function(grunt) {
         options: {
           mangle: true,
           //screwIE8: true,
-//          banner: license,
+          banner: license,
           compress: true,
         },
         files: {
