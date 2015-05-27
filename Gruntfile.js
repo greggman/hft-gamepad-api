@@ -114,7 +114,7 @@ module.exports = function(grunt) {
     fs.writeFileSync('src/files.js', strings.replaceParams(template, {files: JSON.stringify(files, undefined, "  ")}));
   });
 
-  grunt.registerTask('check', ['clean', 'eslint'])
-  grunt.registerTask('default', ['check', 'makeControllerFiles', 'requirejs', 'uglify']);
+  grunt.registerTask('check', ['eslint'])
+  grunt.registerTask('default', ['clean', 'check', 'makeControllerFiles', 'requirejs', 'uglify']);
 };
 
