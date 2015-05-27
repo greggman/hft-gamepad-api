@@ -41,6 +41,7 @@ define([
 
     var gamepads = [];          // HFT gamepads
     var combinedGamepads = [];  // both native and HFT gamepads
+    var hftOptions = {};
 
     // wrap navigator.getGamepads
     var originalGetGamepads = window.navigator.getGamepads.bind(navigator);
@@ -72,7 +73,6 @@ define([
 
         window.buttons = window.buttons || [];
 
-        var hftOptions;
         var script = document.querySelector("script[hft-options]");
         if (script) {
           try {
@@ -91,9 +91,9 @@ define([
          * @param {string} [controllerType] what type controller. Valid types are
          *    "1button", "2button", "1dpad-1button", "1dpad-2button", "1dpad", "2dpad".
          *    Default = 1dpad-2button".
-         * @param {boolean} dpadToAxes Copy dpad values to axes values. Default = true;
-         * @param {boolean} axesOnly Dpad values show up as axes, not dpad at all.
-         * @param {boolean} reportMapping If true Gamepad.mapping will be `happyfuntimes-<controllerType>`.
+         * @param {boolean} [dpadToAxes] Copy dpad values to axes values. Default = true;
+         * @param {boolean} [axesOnly] Dpad values show up as axes, not dpad at all.
+         * @param {boolean} [reportMapping] If true Gamepad.mapping will be `happyfuntimes-<controllerType>`.
          *    Default = false in which case Gamepad.mapping will be `standard`.
          */
 
