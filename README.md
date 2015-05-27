@@ -46,27 +46,27 @@ Controller Types:
 
 *   1button
 
-    <img width="50%" height="50%" src="1button.png" />
+    <img width="50%" height="50%" src="assets/1button.png" />
 
 *   2button
 
-    <img width="50%" height="50%" src="2button.png" />
+    <img width="50%" height="50%" src="assets/2button.png" />
 
 *   1dpad-1button
 
-    <img width="50%" height="50%" src="1dpad-1button.png" />
+    <img width="50%" height="50%" src="assets/1dpad-1button.png" />
 
 *   1dpad-2button
 
-    <img width="50%" height="50%" src="1dpad-2button.png" />
+    <img width="50%" height="50%" src="assets/1dpad-2button.png" />
 
 *   1dpad
 
-    <img width="50%" height="50%" src="1dpad.png" />
+    <img width="50%" height="50%" src="assets/1dpad.png" />
 
 *   2dpad
 
-    <img width="50%" height="50%" src="2dpad.png" />
+    <img width="50%" height="50%" src="assets/2dpad.png" />
 
     Note: 2dpad reports the 2nd dpad on `gamepad.axes[2]` and `gamepad.axes[3]` as well as
     `gamepad.button[16]`, `gamepad.button[17]`, `gamepad.button[18]`, `gamepad.button[19]`
