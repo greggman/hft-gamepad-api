@@ -1,0 +1,59 @@
+    <!-- this is inserted into index.html by happyfuntimes -->
+    <div id="gamearea" class="fixheight">
+      <div id="buttons" class="layout-default hft-fullcenter fixheight">
+          <div id="dpads">
+              <div class="button" id="dpad1"></div>
+              <div class="button" id="dpad2"></div>
+          </div>
+          <div class="button" id="buttonA"></div>
+          <div class="button" id="buttonB"></div>
+      </div>
+    </div>
+
+<!-- we will look this up at runtime and insert it into the buttons. -->
+    <script id="button-img" type="not-js">
+<svg class="button-img" width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g id="Layer1">
+        <path d="M15,19L15,20L5,20L5,19L3,19L3,18L2,18L2,17L1,17L1,15L0,15L0,5L1,5L1,3L2,3L2,2L3,2L3,1L5,1L5,0L15,0L15,1L17,1L17,2L18,2L18,3L19,3L19,5L20,5L20,15L19,15L19,17L18,17L18,18L17,18L17,19L15,19Z" style="fill:%(surfaceColor)s;"/>
+        <path d="M15,19L15,20L5,20L5,19L3,19L3,18L2,18L2,17L1,17L1,15L0,15L0,12L1,12L1,14L2,14L2,15L3,15L3,16L5,16L5,17L15,17L15,16L17,16L17,15L18,15L18,14L19,14L19,12L20,12L20,15L19,15L19,17L18,17L18,18L17,18L17,19L15,19Z" style="fill:%(edgeColor)s;"/>
+    </g>
+</svg>
+    </script>
+
+    <script id="button-pressed" type="not-js">
+<svg class="button-pressed" width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g id="Layer1">
+        <path d="M15,19L15,20L5,20L5,19L3,19L3,18L2,18L2,17L1,17L1,15L0,15L0,7L1,7L1,5L2,5L2,4L3,4L3,3L5,3L5,2L15,2L15,3L17,3L17,4L18,4L18,5L19,5L19,7L20,7L20,15L19,15L19,17L18,17L18,18L17,18L17,19L15,19Z" style="fill:%(surfaceColor)s;"/>
+        <path d="M15,19L15,20L5,20L5,19L3,19L3,18L2,18L2,17L1,17L1,15L0,15L0,14L1,14L1,16L2,16L2,17L3,17L3,18L5,18L5,19L15,19L15,18L17,18L17,17L18,17L18,16L19,16L19,14L20,14L20,15L19,15L19,17L18,17L18,18L17,18L17,19L15,19Z" style="fill:%(edgeColor)s;"/>
+    </g>
+</svg>
+    </script>
+
+    <script id="dpad-image" type="not-js">
+<svg width="100%" height="100%" viewBox="0 0 39 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g id="Layer1">
+        <path d="M26,24L26,36L13,36L13,24L0,24L0,12L13,12L13,0L26,0L26,12L39,12L39,24L26,24Z" style="fill:rgb(172,172,172);"/>
+        <path d="M26,36L13,36L13,39L26,39L26,36ZM13,24L3.55271e-15,24L3.55271e-15,27L13,27L13,24ZM39,24L26,24L26,27L39,27L39,24Z" style="fill:rgb(79,79,79);"/>
+    </g>
+</svg>
+    </script>
+
+    <script id="background-style" type="not-js">
+linear-gradient(
+  to bottom,
+  %(dark)s,
+  %(dark)s  10%,
+  %(light)s 10%,
+  %(light)s 12%,
+  %(dark)s  12%,
+  %(dark)s  14%,
+  %(light)s 14%,
+  %(light)s 86%,
+  %(dark)s  86%,
+  %(dark)s  88%,
+  %(light)s 88%,
+  %(light)s 90%,
+  %(dark)s  90%,
+  %(dark)s
+)
+    </script>

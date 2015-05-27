@@ -1,0 +1,28 @@
+{
+  "name": "hft-gamepad-api",
+  "version": "0.0.1",
+  "authors": [
+    "Gregg Tavares <github@greggman.com>"
+  ],
+  "description": "Emulates the HTML5 Gamepad API using smartphones and HappyFunTimes",
+  "main": "dist/happyfuntimes-gamepad-emu.min.js",
+  "keywords": [
+    "game",
+    "games",
+    "gamepad",
+    "happyFunTimes"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/greggman/hft-gamepad-api",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "assets",
+    "src",
+    "controller",
+    "build"
+  ]
+}

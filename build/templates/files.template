@@ -1,0 +1,8 @@
+/*eslint-disable */
+
+"use strict";
+
+define([], function() {
+ return %(files)s;
+});
+
