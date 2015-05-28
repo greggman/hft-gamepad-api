@@ -42,6 +42,7 @@ define([
     var gamepads = [];          // HFT gamepads
     var combinedGamepads = [];  // both native and HFT gamepads
     var hftOptions = {};
+    var waitingGamepads = [];
 
     // wrap navigator.getGamepads
     var originalGetGamepads = window.navigator.getGamepads.bind(navigator);
@@ -85,6 +86,7 @@ define([
         }
         hftOptions = hftOptions || {};
         var controllerId = hftOptions.reportMapping ? ("happyfuntimes-" + (hftOptions.controllerType || "1dpad-2button") + "-controller") : "standard";
+        var maxGamepads = parseInt(hftOptions.maxGamepads) || 0;
 
         /**
          * @typedef {Object} HFTOptions
@@ -97,9 +99,6 @@ define([
          *    Default = false in which case Gamepad.mapping will be `standard`.
          */
 
-        // TODO: Pass in options in window.HFTOptions like maxplayers, if
-        // more than max put up message and do all the shit like unity
-        // Need to handle more than 16 players (as in le
         function getSlotNdx() {
           for (var ii = 0; ii < gamepads.length; ++ii) {
             if (!gamepads[ii]) {
@@ -109,7 +108,23 @@ define([
           return ii;
         }
 
-        var Gamepad = function(netPlayer, name, ndx) {
+        function startWaitingGamepads() {
+          while (waitingGamepads.length) {
+            var ndx = getSlotNdx();
+            if (maxGamepads !== 0 && ndx >= maxGamepads) {
+              return;
+            }
+
+            var gamepad = waitingGamepads.shift();
+            gamepads[ndx] = gamepad;
+            gamepad.makeActive(ndx);
+            var event = new CustomEvent('gamepadconnected', { });
+            event.gamepad = gamepad;
+            window.dispatchEvent(event);
+          }
+        }
+
+        var Gamepad = function(netPlayer) {
           // readonly    attribute id;
           // readonly    attribute long                index;
           // readonly    attribute boolean             connected;
@@ -117,9 +132,10 @@ define([
           // readonly    attribute GamepadMappingType  mapping;
           // readonly    attribute double[]            axes;
           // readonly    attribute GamepadButton[]     buttons;
-          //
-          var connected = true;  // eslint-disable-line
-          var timestamp = window.performance.now();  // eslint-disable-line
+          var connected = false;
+          var timestamp = window.performance.now();
+          var ndx = -1;
+          var color;
 
           var axes = [0, 0, 0, 0];
           var buttons = [
@@ -145,39 +161,20 @@ define([
             { pressed: false, value: 0, },  // 19 dpad2 right
           ];
 
-          // If anyone knows a better way to pick super distinct colors please tell me
-          // This one goes around the color wheel at 90 degrees every for players
-          // For every other set of 4 players is offset 22.5. So you get
-          //
-          //      0     90    180    270   : players 0-3
-          //     22.5  112.5  202.5  292.5 : players 4-7
-          //     45    135    225    315   : players 8-11
-          //     67.5  157.5  247.5  337.5 : players 12-16
-          //
-          // after that repeat the same sequence + 12.5 degrees
-          // but at full saturation (vs 0.4 saturation for the first 16 players)
-          //
-          // After that those 2 sequences repeat but at value = 0.5 instead of value = 1
-          // I suspect that's too dark. Ideally the game itself should figure out
-          // a way to decide on colors and possibly different avatars or different patterns.
-          var majorHue = ndx % 4;
-          var minorHue = ndx / 4 | 0;
-          var tinyHue  = (ndx & 0x10) ? 0 : 1;
-          var hue = (majorHue * 90 + minorHue * 22.5 + tinyHue * 12.5) % 360;
-          var saturation = (ndx & 0x10) ? 1 : 0.4;
-          var value = (ndx & 0x20) ? 0.5 : 1;
-          var color = chroma.hsv(hue, saturation, value).hex();
-
-          // Send the color to the controller.
-          this.color = color;
-
           // The player disconnected.
           var disconnect = function() {
             connected = false;
-            gamepads[ndx] = undefined;
-            var event = new CustomEvent('gamepaddisconnected', { });
-            event.gamepad = this;
-            window.dispatchEvent(event);
+            if (ndx >= 0) {
+              gamepads[ndx] = undefined;
+              var event = new CustomEvent('gamepaddisconnected', { });
+              event.gamepad = this;
+              window.dispatchEvent(event);
+              ndx = -1;
+              startWaitingGamepads();
+            } else {
+              var ii = waitingGamepads.indexOf(this);
+              waitingGamepads.splice(ii, 1);
+            }
           }.bind(this);
 
           var updateButton = function(ndx, pressed) {
@@ -220,6 +217,104 @@ define([
           netPlayer.addEventListener('disconnect', disconnect);
           netPlayer.addEventListener('button', handleButton);
           netPlayer.addEventListener('dpad', handleDPad);
+
+          this.makeActive = function(_ndx) {
+            ndx = _ndx;
+            connected = true;
+
+            // If anyone knows a better way to pick super distinct colors please tell me
+            // This one goes around the color wheel at 90 degrees every for players
+            // For every other set of 4 players is offset 22.5. So you get
+            //
+            //      0     90    180    270   : players 0-3
+            //     22.5  112.5  202.5  292.5 : players 4-7
+            //     45    135    225    315   : players 8-11
+            //     67.5  157.5  247.5  337.5 : players 12-16
+            //
+            // after that repeat the same sequence + 12.5 degrees
+            // but at full saturation (vs 0.4 saturation for the first 16 players)
+            //
+            // After that those 2 sequences repeat but at value = 0.5 instead of value = 1
+            // I suspect that's too dark. Ideally the game itself should figure out
+            // a way to decide on colors and possibly different avatars or different patterns.
+            var majorHue = ndx % 4;
+            var minorHue = ndx / 4 | 0;
+            var tinyHue  = (ndx & 0x10) ? 0 : 1;
+            var hue = (majorHue * 90 + minorHue * 22.5 + tinyHue * 12.5) % 360;
+            var saturation = (ndx & 0x10) ? 1 : 0.4;
+            var value = (ndx & 0x20) ? 0.5 : 1;
+            var color = chroma.hsv(hue, saturation, value).hex();
+
+            // Send the color to the controller.
+            this.color = color;
+            netPlayer.sendCmd('play');
+          };
+
+          this.queue = function() {
+             // only do this if there's waiting player
+             if (ndx >= 0 && !waitingGamepads.length) {
+               return;
+             }
+             netPlayer.sendCmd('full');
+             waitingGamepads.push(this);
+             disconnect();
+          };
+
+          Object.defineProperties(this, {
+            id: {
+              value: controllerId,
+              writable: false,
+            },
+            index: {
+              get: function() {
+                return ndx;
+              },
+            },
+            connected: {
+              get: function() {
+                return connected;
+              },
+            },
+            timestamp: {
+              get: function() {
+                return timestamp;
+              },
+            },
+            mapping: {
+              value: controllerId,  // does this have to be ""?
+              writable: false,
+            },
+            axes: {
+              get: function() {
+                return axes;
+              },
+            },
+            buttons: {
+              get: function() {
+                return buttons;
+              },
+            },
+            color: {
+              get: function() {
+                return color;
+              },
+              // Must be a valid CSS color value, eg "white", "#F05", "#F701D3", "rgb(255,127,0)", etc..
+              set: function(newColor) {
+                color = newColor;
+                netPlayer.sendCmd('color', { color: color });
+              },
+            },
+            netPlayer: {
+              get: function() {
+                return netPlayer;
+              },
+            },
+            name: {
+              get: function() {
+                return netPlayer.getName();
+              },
+            },
+          });
         };
 
         var server = new GameServer({
@@ -237,67 +332,13 @@ define([
 
         // A new player has arrived.
         server.addEventListener('playerconnect', function(netPlayer, name) {
-          var ndx = getSlotNdx();
-          var gamepad = new Gamepad(netPlayer, name, ndx);
-          gamepads[ndx] = gamepad;
-          var event = new CustomEvent('gamepadconnected', { });
-          event.gamepad = gamepad;
-          window.dispatchEvent(event);
-        });
-
-        Object.defineProperties(this, {
-          id: {
-            value: controllerId,
-            writable: false,
-          },
-          index: {
-            value: ndx,
-            writable: false,
-          },
-          connected: {
-            get: function() {
-              return connected;
-            },
-          },
-          timestamp: {
-            get: function() {
-              return timestamp;
-            },
-          },
-          mapping: {
-            value: controllerId,  // does this have to be ""?
-            writable: false,
-          },
-          axes: {
-            get: function() {
-              return axes;
-            },
-          },
-          buttons: {
-            get: function() {
-              return buttons;
-            },
-          },
-          color: {
-            get: function() {
-              return color;
-            },
-            // Must be a valid CSS color value, eg "white", "#F05", "#F701D3", "rgb(255,127,0)", etc..
-            set: function(newColor) {
-              color = newColor;
-              netPlayer.sendCmd('color', { color: color });
-            },
-          },
-          netPlayer: {
-            get: function() {
-              return netPlayer;
-            },
-          },
-          name: {
-            get: function() {
-              return netPlayer.name;
-            },
-          },
+          var gamepad = new Gamepad(netPlayer, name);
+          waitingGamepads.push(gamepad);
+          startWaitingGamepads();
+          // We were not immediately added.
+          if (waitingGamepads.length > 0) {
+            netPlayer.sendCmd('full');
+          }
         });
       });
     }

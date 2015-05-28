@@ -69,6 +69,7 @@ requirejs([
     },
   ]);
 
+  var fullElem = $("full");
   var client = new GameClient();
 
   var layouts = {
@@ -130,8 +131,19 @@ requirejs([
     commonUI.setOrientation(layout.orientation);
   }
 
+  function handleFull() {
+    fullElem.style.display = "block";
+  }
+
+  function handlePlay() {
+    fullElem.style.display = "none";
+  }
+
   client.addEventListener('color', handleColor);
   client.addEventListener('options', handleOptions);
+  client.addEventListener('full', handleFull);
+  client.addEventListener('play', handlePlay);
+
 
   // This way of making buttons probably looks complicated but
   // it lets us easily make more buttons.

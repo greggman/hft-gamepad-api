@@ -83,7 +83,8 @@ Or example setting all options might look like this
          controllerType: "2dpad",
          dpadToAxis: false,
          axisOnly: true,
-         reportMapping: true
+         reportMapping: true,
+         maxGamepads: 16,
        }'></script>
 
 `dpadToAxis`
@@ -101,6 +102,13 @@ Gamepads have a `mapping` field. The spec only defines 2 values, `"standard"` an
 This script defaults to reporting `standard` even though it can't support all 14 inputs
 and 4 axes. Setting `reportMapping` to true will make the script report
 `happyfuntimes-<controllerType>-controler` so your game can check for that if you want.
+
+`maxGampads`
+
+Let's you set a maximum number of gamepads. The default is unlimited.
+If you set this then when more than that many phones connect those players
+over the limit will be put in a waiting list. If other players quit they'll
+be added to the game in the order they connected. Also see `queue` in [API](#api)
 
 ## API
 
@@ -126,5 +134,19 @@ You'd probably be better off making
 a custom HappyFunTimes controller if you want to do anything um, custom? A few
 things you could without a custom contoller are for example register a handler
 to be notified if the user changes their name or if they're busy in the system menu.
+
+`queue`
+
+A function you can call to remove this gamepad from the *active* gamepads and put them
+in the queue of waiting players. If you set a maxGamepads setting then any players
+over the limit are in a queue of waiting players. Calling `queue` on a gamepad takes
+an active player's gamepad and puts it on the waiting list letting the longest waiting
+player into the game. If there no players waiting this is a no-op.
+
+2 use cases come to mind. One, you have a life based game. Each time a player dies you
+call `gamepad.queue()` on that player's gamepad letting the next player play. Another is
+you have a round based game. At the end of a round you call `gamepad.queue()` on all players
+to get a fresh set of players.
+
 
 
