@@ -40,6 +40,7 @@ define([
   var g = {
     client: undefined,
     connectedState: undefined,   // connected or not?
+    timesToCheck: 30,
   };
 
   var connectedStateFuncs = {
@@ -79,7 +80,12 @@ define([
   var checkForHFT = function() {
     var checkForHFTCallback = function(err) {
       if (err) {
-        setTimeout(checkForHFT, 1000);
+        --g.timesToCheck;
+        if (g.timesToCheck) {
+          setTimeout(checkForHFT, 1000);
+        } else {
+          console.log("Could not find HappyFunTimes. Run it then reload this page if you want to connect it to HappyFunTimes."); // eslint-disable-line
+        }
         return;
       }
 
