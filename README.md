@@ -40,9 +40,9 @@ Once you get started [please consider getting even more creative](http://blog.ha
 
 ## Download
 
-<a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js">happyfuntimes-gamepad-emu.min.js</a>
+* <a href="https://github.com/greggman/hft-gamepad-api/raw/master/dist/happyfuntimes-gamepad-emu.min.js" download>happyfuntimes-gamepad-emu.min.js</a>
 
-<a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.js">happyfuntimes-gamepad-emu.js</a>
+* <a href="https://github.com/greggman/hft-gamepad-api/raw/master/dist/happyfuntimes-gamepad-emu.js" download>happyfuntimes-gamepad-emu.js</a>
 
 ## Options
 
@@ -107,7 +107,7 @@ settings this to true means dpad values will only show up as axes.
 
 `reportMapping`
 
-Gamepads have a `mapping` field. The spec only defines 2 values, `"standard"` and `"".
+Gamepads have a `mapping` field. The spec only defines 2 values, `"standard"` and `""`.
 This script defaults to reporting `standard` even though it can't support all 14 inputs
 and 4 axes. Setting `reportMapping` to true will make the script report
 `happyfuntimes-<controllerType>-controler` so your game can check for that if you want.
@@ -147,25 +147,25 @@ to be notified if the user changes their name or if they're busy in the system m
 `queue`
 
 A function you can call to remove this gamepad from the *active* gamepads and put them
-in the queue of waiting players. If you set a maxGamepads setting then any players
+in the queue of waiting players. If you set a `maxGamepads` setting then any players
 over the limit are in a queue of waiting players. Calling `queue` on a gamepad takes
 an active player's gamepad and puts it on the waiting list letting the longest waiting
 player into the game. If there no players waiting this is a no-op.
 
 2 use cases come to mind. One, you have a life based game. Each time a player dies you
 call `gamepad.queue()` on that player's gamepad letting the next player play. Another is
-you have a round based game. At the end of a round you call `gamepad.queue()` on all players
+you have a round based game. At the end of a round you call `gamepad.queue()` on all gamepads
 to get a fresh set of players.
 
 ## GET INVOLVED!!!
 
-Make some awesome games with HappyFunTimes!! If you had suggestions, ideas feel free to
+Make some awesome games with HappyFunTimes!! If you have suggestions, ideas feel free to
 [add them](https://github.com/greggman/hft-gamepad-api/issues) or
 [make a pull request](https://github.com/greggman/hft-gamepad-api/pulls)!
 
 ## Building
 
-If you want to change something about this or make a new controller, well first of you
+If you want to change something about this or make a new controller, well first off you can
 make controllers for HappyFunTimes games without any of this. See [HappyFunTimes](http://docs.happyfuntimes.net/docs).
 But if you want to fix something or make a cool edition a brief explaination.
 
@@ -173,12 +173,15 @@ But if you want to fix something or make a cool edition a brief explaination.
 
 *   [Install node.js](http://nodejs.org/download/).
 *   Open a node command prompt and type `npm install -g http-server` (you might need a `sudo` in front)
+*   Run these commands
 
-    git clone git://github.com/greggman/hft-gamepad-api.git
-    cd hft-gamepad-api
-    npm install
+        git clone git://github.com/greggman/hft-gamepad-api.git
+        cd hft-gamepad-api
+        npm install
 
 ### Building
+
+Just type
 
     grunt
 
@@ -228,3 +231,9 @@ You should probably read the [HappyFunTimes docs](http://docs.happyfuntimes.net/
     to the game. That can be useful for debugging. Just remember to remove them before you ship as they'll
     be eating up your bandwidth.
 
+*   If you use `console.log` or `console.error` anywhere you'll get an error by the eslint when you build.
+    add `// eslint-disable-line` to work around that
+
+        console.log("foobar");  // eslint-disable-line
+
+    Yea, a little annoying. Sorry about that.

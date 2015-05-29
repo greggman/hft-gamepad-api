@@ -69,8 +69,12 @@ that supports the Gamepad API, add this script and get HappyFunTimes support. Of
 up to you to design a game that plays well with lots of players.</p>
 <p>Once you get started <a href="http://blog.happyfuntimes.net/blog/thinking-outside-the-box-making-hft-games/">please consider getting even more creative</a>.</p>
 <h2 id="download">Download</h2>
-<p><a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js">happyfuntimes-gamepad-emu.min.js</a></p>
-<p><a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.js">happyfuntimes-gamepad-emu.js</a></p>
+<ul>
+<li><p><a href="https://github.com/greggman/hft-gamepad-api/raw/master/dist/happyfuntimes-gamepad-emu.min.js" download>happyfuntimes-gamepad-emu.min.js</a></p>
+</li>
+<li><p><a href="https://github.com/greggman/hft-gamepad-api/raw/master/dist/happyfuntimes-gamepad-emu.js" download>happyfuntimes-gamepad-emu.js</a></p>
+</li>
+</ul>
 <h2 id="options">Options</h2>
 <p>There&#39;s few options you can specify in your script tag. For example you can set the controller to 1 of 6 types
 using a script tag like</p>
@@ -116,9 +120,10 @@ they will only show up as buttons</p>
 <p><code>axesOnly</code></p>
 <p>settings this to true means dpad values will only show up as axes.</p>
 <p><code>reportMapping</code></p>
-<p>Gamepads have a <code>mapping</code> field. The spec only defines 2 values, <code>&quot;standard&quot;</code> and <code>&quot;&quot;.
-This script defaults to reporting</code>standard<code>even though it can&#39;t support all 14 inputs
-and 4 axes. Setting</code>reportMapping<code>to true will make the script report</code>happyfuntimes-<controllerType>-controler` so your game can check for that if you want.</p>
+<p>Gamepads have a <code>mapping</code> field. The spec only defines 2 values, <code>&quot;standard&quot;</code> and <code>&quot;&quot;</code>.
+This script defaults to reporting <code>standard</code> even though it can&#39;t support all 14 inputs
+and 4 axes. Setting <code>reportMapping</code> to true will make the script report
+<code>happyfuntimes-&lt;controllerType&gt;-controler</code> so your game can check for that if you want.</p>
 <p><code>maxGampads</code></p>
 <p>Let&#39;s you set a maximum number of gamepads. The default is unlimited.
 If you set this then when more than that many phones connect those players
@@ -143,32 +148,34 @@ things you could without a custom contoller are for example register a handler
 to be notified if the user changes their name or if they&#39;re busy in the system menu.</p>
 <p><code>queue</code></p>
 <p>A function you can call to remove this gamepad from the <em>active</em> gamepads and put them
-in the queue of waiting players. If you set a maxGamepads setting then any players
+in the queue of waiting players. If you set a <code>maxGamepads</code> setting then any players
 over the limit are in a queue of waiting players. Calling <code>queue</code> on a gamepad takes
 an active player&#39;s gamepad and puts it on the waiting list letting the longest waiting
 player into the game. If there no players waiting this is a no-op.</p>
 <p>2 use cases come to mind. One, you have a life based game. Each time a player dies you
 call <code>gamepad.queue()</code> on that player&#39;s gamepad letting the next player play. Another is
-you have a round based game. At the end of a round you call <code>gamepad.queue()</code> on all players
+you have a round based game. At the end of a round you call <code>gamepad.queue()</code> on all gamepads
 to get a fresh set of players.</p>
 <h2 id="get-involved-">GET INVOLVED!!!</h2>
-<p>Make some awesome games with HappyFunTimes!! If you had suggestions, ideas feel free to
+<p>Make some awesome games with HappyFunTimes!! If you have suggestions, ideas feel free to
 <a href="https://github.com/greggman/hft-gamepad-api/issues">add them</a> or
 <a href="https://github.com/greggman/hft-gamepad-api/pulls">make a pull request</a>!</p>
 <h2 id="building">Building</h2>
-<p>If you want to change something about this or make a new controller, well first of you
+<p>If you want to change something about this or make a new controller, well first off you can
 make controllers for HappyFunTimes games without any of this. See <a href="http://docs.happyfuntimes.net/docs">HappyFunTimes</a>.
 But if you want to fix something or make a cool edition a brief explaination.</p>
 <h3 id="setup">Setup</h3>
 <ul>
 <li><a href="http://nodejs.org/download/">Install node.js</a>.</li>
-<li><p>Open a node command prompt and type <code>npm install -g http-server</code> (you might need a <code>sudo</code> in front)</p>
-<p>git clone git://github.com/greggman/hft-gamepad-api.git
+<li>Open a node command prompt and type <code>npm install -g http-server</code> (you might need a <code>sudo</code> in front)</li>
+<li><p>Run these commands</p>
+<pre><code>git clone git://github.com/greggman/hft-gamepad-api.git
 cd hft-gamepad-api
-npm install</p>
-</li>
+npm install
+</code></pre></li>
 </ul>
 <h3 id="building">Building</h3>
+<p>Just type</p>
 <pre><code>grunt
 </code></pre><h3 id="running">Running</h3>
 <ul>
@@ -211,6 +218,11 @@ bundled into strings as part of the <code>grunt</code> build process.</p>
 <li><p>In <code>controller/scripts/controller.js</code> you can use <code>client.log</code> and <code>client.error</code> to send log messages from the controllers
 to the game. That can be useful for debugging. Just remember to remove them before you ship as they&#39;ll
 be eating up your bandwidth.</p>
+</li>
+<li><p>If you use <code>console.log</code> or <code>console.error</code> anywhere you&#39;ll get an error by the eslint when you build.
+add <code>// eslint-disable-line</code> to work around that</p>
+<pre><code>console.log(&quot;foobar&quot;);  // eslint-disable-line
+</code></pre><p>Yea, a little annoying. Sorry about that.</p>
 </li>
 </ul>
 
