@@ -26,7 +26,7 @@
 
 <title>%(title)s</title>
 
-<link rel="stylesheet" href="/build/css/base.css" type="text/css" />
+<link rel="stylesheet" href="build/css/base.css" type="text/css" />
 </head>
 <body>
 <div id="content">

@@ -11,7 +11,7 @@ It's **SUPER EASY TO USE**
 Just put the [`happyfuntimes-gamepad-emu.min.js`](https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js)
 file somewhere and include it at the bottom of your HTML file
 
-   <script src="happyfuntimes-gamepad-emu.min.js"></script>
+    <script src="happyfuntimes-gamepad-emu.min.js"></script>
 
 * Then [run happyfuntimes](http://superhappyfuntimes.net).
 * Start your game
