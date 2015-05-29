@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- this file is auto-generated from README.md. Do not edited directly -->
+<!--
+/**
+ * @license HappyFunTimes 0.0.3 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+ * Available via the MIT license.
+ * see: http://github.com/greggman/happyfuntimes for details
+ */
+/**
+ * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/almond for details
+ */
+
+-->
+<html>
+<head>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, user-scalable=yes">
+<meta property="og:title" content="HappyFunTimes Gamepad API Emulation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="http://greggman.github.io/hft-gamepad-api/assets/screenshot.png" />
+<meta property="og:description" content="Add Infinite gamepads to your HTML5 game with one line of code and HappyFunTimes" />
+<meta property="og:url" content="http://greggman.github.io/hft-gamepad-api/" />
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@greggman">
+<meta name="twitter:creator" content="@greggman">
+<meta name="twitter:domain" content="greggman.github.io">
+<meta name="twitter:title" content="HappyFunTimes Gamepad API Emulation">
+<meta name="twitter:url" content="http://greggman.github.io/hft-gamepad-api/">
+<meta name="twitter:description" content="Add Infinite gamepads to your HTML5 game with one line of code and HappyFunTimes">
+<meta name="twitter:image:src" content="http://greggman.github.io/hft-gamepad-api/assets/screenshot.png">
+
+
+<title>HappyFunTimes Gamepad API Emulation</title>
+
+<link rel="stylesheet" href="/build/css/base.css" type="text/css" />
+</head>
+<body>
+<div id="content">
+  <h1 id="hft-gamepad-api">HFT-GAMEPAD-API</h1>
+<p>This script emualtes the HTML5 Gamepad API using smartphones and <a href="http://superhappyfuntimes.net">HappyFunTimes</a>.
+This enables you to easily use HappyFunTimes with any HTML5 game engine.</p>
+<p><img src="assets/screenshot.png" width="50%" height="50%" /></p>
+<p>It&#39;s <strong>SUPER EASY TO USE</strong></p>
+<p>Just put the <a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js"><code>happyfuntimes-gamepad-emu.min.js</code></a>
+file somewhere and include it at the bottom of your HTML file</p>
+   <script src="happyfuntimes-gamepad-emu.min.js"></script>
+
+<ul>
+<li>Then <a href="http://superhappyfuntimes.net">run happyfuntimes</a>.</li>
+<li>Start your game</li>
+<li>Make sure your smartphone is on the same WiFi as the computer running your game</li>
+<li>On your phone&#39;s browser go to <code>happyfuntimes.net</code></li>
+</ul>
+<p>In a moment the phone should connect to your game and offer a dpad and 2 buttons. You can connect
+any number of phones up to the limit of your WiFi setup.</p>
+<h2 id="note-note-note-note-note-note-">NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!!**</h2>
+<p>While this will work, if your game is not designed for HappyFunTimes you&#39;re probably going to be
+slightly disappoinetd. By that I mean if your game is expecting an XBox 360 / PS3 controller with
+2 analog sticks, a dpad, 13 buttons you&#39;re probably not going to be happy with a single DPad
+and 2 buttons on a touch screen. Consider designing a game specifically for HappyFunTimes.</p>
+<h2 id="be-creative">BE CREATIVE</h2>
+<p>The point of HappyFunTimes is to make <strong>NEW EXPERIENCES</strong>. What can you do with 16 to 30 players?</p>
+<p>What this script does do is give you an easy way to get started. You can take any HTML5 engine
+that supports the Gamepad API, add this script and get HappyFunTimes support. Of course it&#39;s
+up to you to design a game that plays well with lots of players.</p>
+<p>Once you get started <a href="http://blog.happyfuntimes.net/blog/thinking-outside-the-box-making-hft-games/">please consider getting even more creative</a>.</p>
+<h2 id="download">Download</h2>
+<p><a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js">happyfuntimes-gamepad-emu.min.js</a></p>
+<p><a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.js">happyfuntimes-gamepad-emu.js</a></p>
+<h2 id="options">Options</h2>
+<p>There&#39;s few options you can specify in your script tag. For example you can set the controller to 1 of 6 types
+using a script tag like</p>
+<pre><code>&lt;script src=&quot;happyfuntimes-gamepad-emu.js&quot; hft-options=&#39;{controllerType:&quot;1dpad-1button&quot;}&#39;&gt;&lt;/script&gt;
+</code></pre><p>Controller Types:</p>
+<ul>
+<li><p>1button</p>
+<p><img width="50%" height="50%" src="assets/1button.png" /></p>
+</li>
+<li><p>2button</p>
+<p><img width="50%" height="50%" src="assets/2button.png" /></p>
+</li>
+<li><p>1dpad-1button</p>
+<p><img width="50%" height="50%" src="assets/1dpad-1button.png" /></p>
+</li>
+<li><p>1dpad-2button</p>
+<p><img width="50%" height="50%" src="assets/1dpad-2button.png" /></p>
+</li>
+<li><p>1dpad</p>
+<p><img width="50%" height="50%" src="assets/1dpad.png" /></p>
+</li>
+<li><p>2dpad</p>
+<p><img width="50%" height="50%" src="assets/2dpad.png" /></p>
+<p>Note: 2dpad reports the 2nd dpad on <code>gamepad.axes[2]</code> and <code>gamepad.axes[3]</code> as well as
+<code>gamepad.button[16]</code>, <code>gamepad.button[17]</code>, <code>gamepad.button[18]</code>, <code>gamepad.button[19]</code></p>
+</li>
+</ul>
+<p>You can also set a few boolean options in the form of</p>
+<pre><code>&lt;script src=&quot;happyfuntimes-gamepad-emu.js&quot; hft-options=&#39;{option:true}&#39;&gt;&lt;/script&gt;
+</code></pre><p>Or example setting all options might look like this</p>
+<pre><code>&lt;script
+   src=&quot;happyfuntimes-gamepad-emu.js&quot;
+   hft-options=&#39;{
+     controllerType: &quot;2dpad&quot;,
+     dpadToAxis: false,
+     axisOnly: true,
+     reportMapping: true,
+     maxGamepads: 16,
+   }&#39;&gt;&lt;/script&gt;
+</code></pre><p><code>dpadToAxis</code></p>
+<p>normally dpad values show up as both buttons and axes. Settings this to false means
+they will only show up as buttons</p>
+<p><code>axesOnly</code></p>
+<p>settings this to true means dpad values will only show up as axes.</p>
+<p><code>reportMapping</code></p>
+<p>Gamepads have a <code>mapping</code> field. The spec only defines 2 values, <code>&quot;standard&quot;</code> and <code>&quot;&quot;.
+This script defaults to reporting</code>standard<code>even though it can&#39;t support all 14 inputs
+and 4 axes. Setting</code>reportMapping<code>to true will make the script report</code>happyfuntimes-<controllerType>-controler` so your game can check for that if you want.</p>
+<p><code>maxGampads</code></p>
+<p>Let&#39;s you set a maximum number of gamepads. The default is unlimited.
+If you set this then when more than that many phones connect those players
+over the limit will be put in a waiting list. If other players quit they&#39;ll
+be added to the game in the order they connected. Also see <code>queue</code> in <a href="#api">API</a></p>
+<h2 id="api">API</h2>
+<p>There&#39;s a few extra properties on gamepad objects provided by this script.</p>
+<p><code>color</code></p>
+<p>color is a CSS color. By default the script tries to give each controller a unique
+color. You can look at this field in the game if you&#39;d like to match the color
+of the player&#39;s avatar to the color of the controller. Conversely you can set this
+value to a valid CSS color value and the contoller will change color to match.
+(eg, &quot;red&quot;, or &quot;#37EF4D&quot;, or &quot;rgb(25,17,123)&quot;, etc.)</p>
+<p><code>name</code></p>
+<p>Name is the name the user set on their phone when they started playing. If they
+change the name it will be updated</p>
+<p><code>netPlayer</code></p>
+<p>This is the <a href="http://docs.happyfuntimes.net/docs/hft/NetPlayer.html">HappyFunTimes NetPlayer object</a>.
+You&#39;d probably be better off making
+a custom HappyFunTimes controller if you want to do anything um, custom? A few
+things you could without a custom contoller are for example register a handler
+to be notified if the user changes their name or if they&#39;re busy in the system menu.</p>
+<p><code>queue</code></p>
+<p>A function you can call to remove this gamepad from the <em>active</em> gamepads and put them
+in the queue of waiting players. If you set a maxGamepads setting then any players
+over the limit are in a queue of waiting players. Calling <code>queue</code> on a gamepad takes
+an active player&#39;s gamepad and puts it on the waiting list letting the longest waiting
+player into the game. If there no players waiting this is a no-op.</p>
+<p>2 use cases come to mind. One, you have a life based game. Each time a player dies you
+call <code>gamepad.queue()</code> on that player&#39;s gamepad letting the next player play. Another is
+you have a round based game. At the end of a round you call <code>gamepad.queue()</code> on all players
+to get a fresh set of players.</p>
+<h2 id="get-involved-">GET INVOLVED!!!</h2>
+<p>Make some awesome games with HappyFunTimes!! If you had suggestions, ideas feel free to
+<a href="https://github.com/greggman/hft-gamepad-api/issues">add them</a> or
+<a href="https://github.com/greggman/hft-gamepad-api/pulls">make a pull request</a>!</p>
+<h2 id="building">Building</h2>
+<p>If you want to change something about this or make a new controller, well first of you
+make controllers for HappyFunTimes games without any of this. See <a href="http://docs.happyfuntimes.net/docs">HappyFunTimes</a>.
+But if you want to fix something or make a cool edition a brief explaination.</p>
+<h3 id="setup">Setup</h3>
+<ul>
+<li><a href="http://nodejs.org/download/">Install node.js</a>.</li>
+<li><p>Open a node command prompt and type <code>npm install -g http-server</code> (you might need a <code>sudo</code> in front)</p>
+<p>git clone git://github.com/greggman/hft-gamepad-api.git
+cd hft-gamepad-api
+npm install</p>
+</li>
+</ul>
+<h3 id="building">Building</h3>
+<pre><code>grunt
+</code></pre><h3 id="running">Running</h3>
+<ul>
+<li>Run <a href="http://superhappyfuntimes.net/install">HappyFunTimes</a></li>
+<li><p>open a shell/terminal/command prompt with node.js</p>
+<pre><code>cd path/to/repo
+http-server -p 8081
+</code></pre></li>
+<li><p>Open a browser window to `<a href="http://localhost/8081/test/test.html">http://localhost/8081/test/test.html</a>&quot; (This runs a test)</p>
+</li>
+<li>Open another browser window to <code>http://localhost:18679</code> (this opens a controller on HappyFunTimes)</li>
+<li>Open an iOS simulator. Start Safari and go to <code>http://localhost:18679</code></li>
+<li>Pull out your phone, Start Safari or Chrome and go to <code>http://happyfuntimes.net</code> (your phone must be on the same router as your computer).</li>
+</ul>
+<p>What&#39;s happening? HappyFunTimes is a web server. For this particular case it serves web pages to the the phone/simulator/controller windows.
+Your game (represented by test.html) runs where ever you&#39;re currently hosting it. For this case that&#39;s the web server we started with <code>http-server</code>.
+The script in the game will connect HappyFunTimes running on the same machine. It will give the controller files to HappyFunTimes.
+HappyFunTimes will then direct any controller that connects to it to load those files. The game and the controllers pass messages to
+each other through HappyFunTimes.</p>
+<h3 id="code">Code</h3>
+<p>The script has 3 main parts.</p>
+<ol>
+<li><p><code>src/hft-connect.js</code> is code to try to connect to HappyFunTimes.</p>
+</li>
+<li><p><code>controller</code> is a set of files that implements a standard HappyFunTimes controller.</p>
+</li>
+<li><p><code>src/controller-support.js</code> is code that uses a <a href="http://docs.happyfuntimes.net/docs/hft/GameServer.html"><code>GameServer</code></a>
+to talk to HappyFunTimes to receive messages from phones and to emulate the HTML5 Gamepad API.
+It also sends files the controller files from #2 to HappyFunTimes to serve to the phones. Those files
+bundled into strings as part of the <code>grunt</code> build process.</p>
+</li>
+</ol>
+<p>The build pulls all of this into one easy to use script</p>
+<h3 id="docs">Docs</h3>
+<p>You should probably read the <a href="http://docs.happyfuntimes.net/docs/">HappyFunTimes docs</a>.</p>
+<h3 id="dev-tips">Dev Tips</h3>
+<ul>
+<li><p>Use the Safari or Chrome remote debugging to see what&#39;s happening on the phone. Google it.</p>
+</li>
+<li><p>In <code>controller/scripts/controller.js</code> you can use <code>client.log</code> and <code>client.error</code> to send log messages from the controllers
+to the game. That can be useful for debugging. Just remember to remove them before you ship as they&#39;ll
+be eating up your bandwidth.</p>
+</li>
+</ul>
+
+</div>
+</html>
+
+
