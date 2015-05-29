@@ -114,7 +114,23 @@ module.exports = function(grunt) {
     fs.writeFileSync('src/files.js', strings.replaceParams(template, {files: JSON.stringify(files, undefined, "  ")}));
   });
 
+  grunt.registerTask('makeindex', function() {
+    var marked  = require('marked');
+    var fs      = require('fs');
+    marked.setOptions({ rawHtml: true });
+    var html = marked(fs.readFileSync('README.md', {encoding: 'utf8'}));
+    var template = fs.readFileSync('build/templates/index.template', {encoding: 'utf8'});
+    var content = strings.replaceParams(template, {
+      content: html,
+      license: license,
+      srcFileName: 'README.md',
+      title: 'HappyFunTimes Gamepad API Emulation',
+    });
+    content = content.replace(/href="http\:\/\/twgljs.org\//g, 'href="/');
+    fs.writeFileSync('index.html', content);
+  });
+
   grunt.registerTask('check', ['eslint'])
-  grunt.registerTask('default', ['clean', 'check', 'makeControllerFiles', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['clean', 'check', 'makeControllerFiles', 'requirejs', 'uglify', 'makeindex']);
 };
 
