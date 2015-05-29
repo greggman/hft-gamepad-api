@@ -8,7 +8,8 @@ This enables you to easily use HappyFunTimes with any HTML5 game engine.
 
 It's **SUPER EASY TO USE**
 
-Just put the `dist/happyfuntimes-gamepad-emu.min.js` file somewhere and include it at the bottom of your HTML file
+Just put the [`happyfuntimes-gamepad-emu.min.js`](https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js)
+file somewhere and include it at the bottom of your HTML file
 
    <script src="happyfuntimes-gamepad-emu.min.js"></script>
 
@@ -36,6 +37,12 @@ that supports the Gamepad API, add this script and get HappyFunTimes support. Of
 up to you to design a game that plays well with lots of players.
 
 Once you get started [please consider getting even more creative](http://blog.happyfuntimes.net/blog/thinking-outside-the-box-making-hft-games/).
+
+## Download
+
+<a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js">happyfuntimes-gamepad-emu.min.js</a>
+
+<a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.js">happyfuntimes-gamepad-emu.js</a>
 
 ## Options
 
@@ -150,5 +157,74 @@ call `gamepad.queue()` on that player's gamepad letting the next player play. An
 you have a round based game. At the end of a round you call `gamepad.queue()` on all players
 to get a fresh set of players.
 
+## GET INVOLVED!!!
 
+Make some awesome games with HappyFunTimes!! If you had suggestions, ideas feel free to
+[add them](https://github.com/greggman/hft-gamepad-api/issues) or
+[make a pull request](https://github.com/greggman/hft-gamepad-api/pulls)!
+
+## Building
+
+If you want to change something about this or make a new controller, well first of you
+make controllers for HappyFunTimes games without any of this. See [HappyFunTimes](http://docs.happyfuntimes.net/docs).
+But if you want to fix something or make a cool edition a brief explaination.
+
+### Setup
+
+*   [Install node.js](http://nodejs.org/download/).
+*   Open a node command prompt and type `npm install -g http-server` (you might need a `sudo` in front)
+
+    git clone git://github.com/greggman/hft-gamepad-api.git
+    cd hft-gamepad-api
+    npm install
+
+### Building
+
+    grunt
+
+### Running
+
+*   Run [HappyFunTimes](http://superhappyfuntimes.net/install)
+*   open a shell/terminal/command prompt with node.js
+
+        cd path/to/repo
+        http-server -p 8081
+
+*   Open a browser window to `http://localhost/8081/test/test.html" (This runs a test)
+*   Open another browser window to `http://localhost:18679` (this opens a controller on HappyFunTimes)
+*   Open an iOS simulator. Start Safari and go to `http://localhost:18679`
+*   Pull out your phone, Start Safari or Chrome and go to `http://happyfuntimes.net` (your phone must be on the same router as your computer).
+
+What's happening? HappyFunTimes is a web server. For this particular case it serves web pages to the the phone/simulator/controller windows.
+Your game (represented by test.html) runs where ever you're currently hosting it. For this case that's the web server we started with `http-server`.
+The script in the game will connect HappyFunTimes running on the same machine. It will give the controller files to HappyFunTimes.
+HappyFunTimes will then direct any controller that connects to it to load those files. The game and the controllers pass messages to
+each other through HappyFunTimes.
+
+### Code
+
+The script has 3 main parts.
+
+1.  `src/hft-connect.js` is code to try to connect to HappyFunTimes.
+
+2.  `controller` is a set of files that implements a standard HappyFunTimes controller.
+
+3.  `src/controller-support.js` is code that uses a [`GameServer`](http://docs.happyfuntimes.net/docs/hft/GameServer.html)
+    to talk to HappyFunTimes to receive messages from phones and to emulate the HTML5 Gamepad API.
+    It also sends files the controller files from #2 to HappyFunTimes to serve to the phones. Those files
+    bundled into strings as part of the `grunt` build process.
+
+The build pulls all of this into one easy to use script
+
+### Docs
+
+You should probably read the [HappyFunTimes docs](http://docs.happyfuntimes.net/docs/).
+
+### Dev Tips
+
+*   Use the Safari or Chrome remote debugging to see what's happening on the phone. Google it.
+
+*   In `controller/scripts/controller.js` you can use `client.log` and `client.error` to send log messages from the controllers
+    to the game. That can be useful for debugging. Just remember to remove them before you ship as they'll
+    be eating up your bandwidth.
 
