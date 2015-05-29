@@ -16,6 +16,7 @@
     "grunt-contrib-eslint": "0.0.5",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-uglify": "^0.9.1",
+    "marked": "^0.3.3",
     "semver": "^4.3.4",
     "uglify-js": "2.x"
   },
