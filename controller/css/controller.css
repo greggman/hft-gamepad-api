@@ -168,7 +168,8 @@ svg, img {
 }
 
 @media only screen
-  and (max-device-width: 480px) {
+  and (min-device-width: 320px)
+  and (max-device-height: 567px) {
 
 .layout-1button #buttonA        { right: 20px; }
 
