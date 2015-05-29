@@ -2,6 +2,7 @@ HFT-GAMEPAD-API
 ===============
 
 This script emualtes the HTML5 Gamepad API using smartphones and [HappyFunTimes](http://superhappyfuntimes.net).
+This enables you to easily use HappyFunTimes with any HTML5 game engine.
 
 <img src="assets/screenshot.png" width="50%" height="50%" />
 
@@ -23,7 +24,8 @@ any number of phones up to the limit of your WiFi setup.
 
 While this will work, if your game is not designed for HappyFunTimes you're probably going to be
 slightly disappoinetd. By that I mean if your game is expecting an XBox 360 / PS3 controller with
-2 analog sticks, a dpad, 13 buttons you're going to be disappointed.
+2 analog sticks, a dpad, 13 buttons you're probably not going to be happy with a single DPad
+and 2 buttons on a touch screen. Consider designing a game specifically for HappyFunTimes.
 
 ## BE CREATIVE
 
