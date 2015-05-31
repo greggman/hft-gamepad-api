@@ -21,6 +21,9 @@ file somewhere and include it at the bottom of your HTML file
 In a moment the phone should connect to your game and offer a dpad and 2 buttons. You can connect
 any number of phones up to the limit of your WiFi setup.
 
+It's safe to leave the script always on your page. If HappyFunTimes is not running locally
+the script as no effect.
+
 ## NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!!**
 
 While this will work, if your game is not designed for HappyFunTimes you're probably going to be
