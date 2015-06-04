@@ -83,6 +83,18 @@ Controller Types:
     Note: 2dpad reports the 2nd dpad on `gamepad.axes[2]` and `gamepad.axes[3]` as well as
     `gamepad.button[16]`, `gamepad.button[17]`, `gamepad.button[18]`, `gamepad.button[19]`
 
+*   1lrpad-1button
+
+    <img width="50%" height="50%" src="assets/1lrpad-1button.png" />
+
+*   1lrpad-2button
+
+    <img width="50%" height="50%" src="assets/1lrpad-2button.png" />
+
+*   1lrpad
+
+    <img width="50%" height="50%" src="assets/1lrpad.png" />
+
 You can also set a few boolean options in the form of
 
     <script src="happyfuntimes-gamepad-emu.js" hft-options='{option:true}'></script>
@@ -124,7 +136,8 @@ be added to the game in the order they connected. Also see `queue` in [API](#api
 
 ## API
 
-There's a few extra properties on gamepad objects provided by this script.
+There's an extra `hft` property on gamepad objects provided by this script. It has
+some properties/functions you can use to interact with HappyFunTimes and the controller.
 
 `color`
 
@@ -156,8 +169,8 @@ an active player's gamepad and puts it on the waiting list letting the longest w
 player into the game. If there no players waiting this is a no-op.
 
 2 use cases come to mind. One, you have a life based game. Each time a player dies you
-call `gamepad.queue()` on that player's gamepad letting the next player play. Another is
-you have a round based game. At the end of a round you call `gamepad.queue()` on all gamepads
+call `gamepad.hft.queue()` on that player's gamepad letting the next player play. Another is
+you have a round based game. At the end of a round you call `gamepad.hft.queue()` on all gamepads
 to get a fresh set of players.
 
 ## GET INVOLVED!!!
