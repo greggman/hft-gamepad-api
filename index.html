@@ -102,6 +102,15 @@ using a script tag like</p>
 <p>Note: 2dpad reports the 2nd dpad on <code>gamepad.axes[2]</code> and <code>gamepad.axes[3]</code> as well as
 <code>gamepad.button[16]</code>, <code>gamepad.button[17]</code>, <code>gamepad.button[18]</code>, <code>gamepad.button[19]</code></p>
 </li>
+<li><p>1lrpad-1button</p>
+<p><img width="50%" height="50%" src="assets/1lrpad-1button.png" /></p>
+</li>
+<li><p>1lrpad-2button</p>
+<p><img width="50%" height="50%" src="assets/1lrpad-2button.png" /></p>
+</li>
+<li><p>1lrpad</p>
+<p><img width="50%" height="50%" src="assets/1lrpad.png" /></p>
+</li>
 </ul>
 <p>You can also set a few boolean options in the form of</p>
 <pre><code>&lt;script src=&quot;happyfuntimes-gamepad-emu.js&quot; hft-options=&#39;{option:true}&#39;&gt;&lt;/script&gt;
@@ -131,7 +140,8 @@ If you set this then when more than that many phones connect those players
 over the limit will be put in a waiting list. If other players quit they&#39;ll
 be added to the game in the order they connected. Also see <code>queue</code> in <a href="#api">API</a></p>
 <h2 id="api">API</h2>
-<p>There&#39;s a few extra properties on gamepad objects provided by this script.</p>
+<p>There&#39;s an extra <code>hft</code> property on gamepad objects provided by this script. It has
+some properties/functions you can use to interact with HappyFunTimes and the controller.</p>
 <p><code>color</code></p>
 <p>color is a CSS color. By default the script tries to give each controller a unique
 color. You can look at this field in the game if you&#39;d like to match the color
@@ -154,8 +164,8 @@ over the limit are in a queue of waiting players. Calling <code>queue</code> on 
 an active player&#39;s gamepad and puts it on the waiting list letting the longest waiting
 player into the game. If there no players waiting this is a no-op.</p>
 <p>2 use cases come to mind. One, you have a life based game. Each time a player dies you
-call <code>gamepad.queue()</code> on that player&#39;s gamepad letting the next player play. Another is
-you have a round based game. At the end of a round you call <code>gamepad.queue()</code> on all gamepads
+call <code>gamepad.hft.queue()</code> on that player&#39;s gamepad letting the next player play. Another is
+you have a round based game. At the end of a round you call <code>gamepad.hft.queue()</code> on all gamepads
 to get a fresh set of players.</p>
 <h2 id="get-involved-">GET INVOLVED!!!</h2>
 <p>Make some awesome games with HappyFunTimes!! If you have suggestions, ideas feel free to
