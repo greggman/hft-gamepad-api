@@ -1,5 +1,5 @@
 /**
- * @license HappyFunTimes 0.0.3 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+ * @license HappyFunTimes 0.0.4 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
  * Available via the MIT license.
  * see: http://github.com/greggman/happyfuntimes for details
  */
@@ -1015,7 +1015,7 @@ define('hftctrl/controller-support',[
           packageInfo: {
             happyFunTimes: {
               name: "HappyFunTimes Gamepad Emulator",
-              apiVersion: "1.11.0",
+              apiVersion: "1.12.0",
             },
           },
         });
