@@ -117,7 +117,7 @@ define([
 
             var gamepad = waitingGamepads.shift();
             gamepads[ndx] = gamepad;
-            gamepad.makeActive(ndx);
+            gamepad.hft.makeActive(ndx);
             var event = new CustomEvent('gamepadconnected', { });
             event.gamepad = gamepad;
             window.dispatchEvent(event);
@@ -218,7 +218,7 @@ define([
           netPlayer.addEventListener('button', handleButton);
           netPlayer.addEventListener('dpad', handleDPad);
 
-          this.makeActive = function(_ndx) {
+          var makeActive = function(_ndx) {
             ndx = _ndx;
             connected = true;
 
@@ -250,7 +250,7 @@ define([
             netPlayer.sendCmd('play');
           };
 
-          this.queue = function() {
+          var queue = function() {
              // only do this if there's waiting player
              if (ndx >= 0 && !waitingGamepads.length) {
                return;
@@ -259,6 +259,34 @@ define([
              waitingGamepads.push(this);
              disconnect();
           };
+
+          var hft = {
+            makeActive: makeActive,
+            queue: queue,
+          };
+
+          Object.defineProperties(hft, {
+            color: {
+              get: function() {
+                return color;
+              },
+              // Must be a valid CSS color value, eg "white", "#F05", "#F701D3", "rgb(255,127,0)", etc..
+              set: function(newColor) {
+                color = newColor;
+                netPlayer.sendCmd('color', { color: color });
+              },
+            },
+            netPlayer: {
+              get: function() {
+                return netPlayer;
+              },
+            },
+            name: {
+              get: function() {
+                return netPlayer.getName();
+              },
+            },
+          });
 
           Object.defineProperties(this, {
             id: {
@@ -294,24 +322,9 @@ define([
                 return buttons;
               },
             },
-            color: {
+            hft: {
               get: function() {
-                return color;
-              },
-              // Must be a valid CSS color value, eg "white", "#F05", "#F701D3", "rgb(255,127,0)", etc..
-              set: function(newColor) {
-                color = newColor;
-                netPlayer.sendCmd('color', { color: color });
-              },
-            },
-            netPlayer: {
-              get: function() {
-                return netPlayer;
-              },
-            },
-            name: {
-              get: function() {
-                return netPlayer.getName();
+                return hft;
               },
             },
           });
@@ -324,7 +337,7 @@ define([
           files: files,
           packageInfo: {
             happyFunTimes: {
-              name: "whatever",
+              name: "HappyFunTimes Gamepad Emulator",
               apiVersion: "1.11.0",
             },
           },
