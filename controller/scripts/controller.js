@@ -63,7 +63,7 @@ requirejs([
       test: mobileHacks.isIOS8OrNewerAndiPhone4OrIPhone5,
       styles: {
         ".button": {
-          bottom: "100px",
+          bottom: "40%",
         },
       },
     },
@@ -75,21 +75,43 @@ requirejs([
   var layouts = {
     "1button": {
       orientation: "none",
+      buttons: true,
     },
     "2button": {
       orientation: "none",
+      buttons: true,
     },
     "1dpad-1button": {
       orientation: "landscape",
+      buttons: true,
+      dpads: true,
     },
     "1dpad-2button": {
       orientation: "landscape",
+      buttons: true,
+      dpads: true,
     },
     "1dpad": {
       orientation: "none",
+      dpads: true,
     },
     "2dpad": {
       orientation: "landscape",
+      dpads: true,
+    },
+    "1lrpad-1button": {
+      orientation: "landscape",
+      buttons: true,
+      lrpads: true,
+    },
+    "1lrpad-2button": {
+      orientation: "landscape",
+      buttons: true,
+      lrpads: true,
+    },
+    "1lrpad": {
+      orientation: "none",
+      lrpads: true,
     },
   };
 
@@ -190,6 +212,48 @@ requirejs([
     new Button("buttonB", { surfaceColor: "#1C97FA", edgeColor: "#1C436A" }),
   ];
 
+  var LRButton = function() {
+    var svgSrc = $("lr-button-00").text +
+                 $("lr-button-01").text +
+                 $("lr-button-10").text +
+                 $("lr-button-11").text;
+
+    return function LRButton(id, options) {
+      options = options || {};
+      var element = $(id);
+      var state = 1;
+      element.innerHTML = strings.replaceParams(svgSrc, options);
+      var svgs = [];
+      var zeroOne = function(v) {
+        return v ? "1" : "0";
+      };
+      for (var ii = 0; ii < 4; ++ii) {
+        var svgId = ".lr-button-" + zeroOne(ii & 1) + zeroOne(ii & 2);
+        var svgElement = element.querySelector(svgId);
+        svgs.push(svgElement);
+        svgElement.style.display = "none";
+      }
+
+      this.setState = function(bits) {
+        bits &= 0x3;
+        if (state !== bits) {
+          svgs[state].style.display = "none";
+          state = bits;
+          svgs[state].style.display = "inline-block";
+          return true;
+        }
+      };
+
+      this.getState = function() {
+        return state;
+      };
+
+      this.setState(0);
+    };
+  }();
+
+  var lrButton = new LRButton("lrpad");  // eslint-disable-line
+
   var DPad = function(id) {
     var element = $(id);
     element.innerHTML = $("dpad-image").text;
@@ -214,7 +278,15 @@ requirejs([
   }
 
   function handleDPad(e) {
-    client.sendCmd('dpad', { pad: e.pad, dir: e.info.direction });
+    // lrpad is just dpad0
+    var pad = e.pad;
+    if (pad === 2) {
+      pad = 0;
+    }
+    if (pad === 0) {
+      lrButton.setState(e.info.bits);
+    }
+    client.sendCmd('dpad', { pad: pad, dir: e.info.direction });
   }
 
   // Setup some keys so we can more easily test on desktop
@@ -239,14 +311,14 @@ requirejs([
   });
 
   // should I look this up? I can't actually know it until the CSS is set.
-  var dpadSize = 160;
   touch.setupVirtualDPads({
     inputElement: $("dpads"),
     callback: handleDPad,
     fixedCenter: true,
     pads: [
-      { referenceElement: $("dpad1"), offsetX: dpadSize / 2, offsetY: dpadSize / 2, },
-      { referenceElement: $("dpad2"), offsetX: dpadSize / 2, offsetY: dpadSize / 2, },
+      { referenceElement: $("dpad1"), },
+      { referenceElement: $("dpad2"), },
+      { referenceElement: $("lrpad"), },
     ],
   });
 });
