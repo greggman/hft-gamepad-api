@@ -338,7 +338,7 @@ define([
           packageInfo: {
             happyFunTimes: {
               name: "HappyFunTimes Gamepad Emulator",
-              apiVersion: "1.11.0",
+              apiVersion: "1.12.0",
             },
           },
         });
