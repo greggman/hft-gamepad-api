@@ -23,7 +23,8 @@ function addgamepad(gamepad) {
     controllerInfo.gamepad = gamepad;
     d.setAttribute("id", "controller" + gamepad.index);
     var t = document.createElement("h1");
-    controllerInfo.nameNode = document.createTextNode(gamepad.name);
+    var name = gamepad.hft ? gamepad.hft.name : "";
+    controllerInfo.nameNode = document.createTextNode(name);
     t.appendChild(controllerInfo.nameNode);
     t.appendChild(document.createTextNode("] gamepad: " + gamepad.id));
     d.appendChild(t);
@@ -69,13 +70,13 @@ function updateStatus() {
     var controllerInfo = controllers[j];
     var controller = controllerInfo.gamepad;
     var d = controllerInfo.element;
-    controllerInfo.nameNode.nodeValue = controller ? controller.name : "-disconnected-";
+    controllerInfo.nameNode.nodeValue = controller ? (controller.hft ? controller.hft.name : "") : "-disconnected-";
     if (!controller) {
       d.style.backgroundColor = "#444";
       continue;
     }
-    if (controller.color) {
-      d.style.backgroundColor = controller.color;
+    if (controller.hft && controller.hft.color) {
+      d.style.backgroundColor = controller.hft.color;
     }
     var buttons = d.getElementsByClassName("button");
     for (var i=0; i<controller.buttons.length; i++) {
