@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 60 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g id="Layer1">
+        <path d="M0,0L25,0L25,1L42,1L42,2L60,2L60,19L42,19L42,18L25,18L25.0001,17L0,17L0,0Z" style="fill:rgb(200,200,200);"/>
+        <path d="M0,17L25,17L25,18L42,18L42,19L60,19L60,20L0,20L0,17Z" style="fill:rgb(92,92,92);"/>
+    </g>
+    <g id="Layer3">
+        <g>
+            <path d="M45,15L47,15L47,14L49,14L49,13L51,13L51,12L53,12L53,11L55,11L55,10L53,10L53,9L51,9L51,8L49,8L49,7L47,7L47,6L45,6L45,5L43,5L43,16L45,16L45,15Z" style="fill:rgb(180,175,175);"/>
+            <path d="M53,10L55,10L55,11L53,11L53,10ZM51,9L53,9L53,10L51,10L51,9ZM49,8L51,8L51,9L49,9L49,8ZM47,7L49,7L49,8L47,8L47,7ZM45,6L47,6L47,7L45,7L45,6ZM43,5L45,5L45,6L43,6L43,5Z" style="fill:rgb(141,137,137);"/>
+        </g>
+        <g>
+            <path d="M16,13L14,13L14,12L12,12L12,11L10,11L10,10L8,10L8,9L6,9L6,8L8,8L8,7L10,7L10,6L12,6L12,5L14,5L14,4L16,4L16,3L18,3L18,14L16,14L16,13Z" style="fill:rgb(180,175,175);"/>
+            <path d="M8,8L6,8L6,9L8,9L8,8ZM10,7L8,7L8,8L10,8L10,7ZM12,6L10,6L10,7L12,7L12,6ZM14,5L12,5L12,6L14,6L14,5ZM16,4L14,4L14,5L16,5L16,4ZM18,3L16,3L16,4L18,4L18,3Z" style="fill:rgb(141,137,137);"/>
+        </g>
+    </g>
+</svg>
