@@ -118,7 +118,9 @@ module.exports = function(grunt) {
     var marked  = require('marked');
     var fs      = require('fs');
     marked.setOptions({ rawHtml: true });
-    var html = marked(fs.readFileSync('README.md', {encoding: 'utf8'}));
+    var readme = strings.replaceParams(fs.readFileSync('build/templates/readme.template', {encoding: 'utf8'}), bowerInfo)
+    fs.writeFileSync('README.md', readme);
+    var html = marked(readme);
     var template = fs.readFileSync('build/templates/index.template', {encoding: 'utf8'});
     var content = strings.replaceParams(template, {
       content: html,
