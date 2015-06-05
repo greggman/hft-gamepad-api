@@ -1,5 +1,5 @@
 /**
- * @license HappyFunTimes 0.0.4 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+ * @license HappyFunTimes 0.0.5 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
  * Available via the MIT license.
  * see: http://github.com/greggman/happyfuntimes for details
  */
@@ -744,24 +744,39 @@ define('hftctrl/controller-support',[
       r([
           'hft/gameserver',
           'hft/misc/input',
+          'hft/misc/misc',
         ], function(
           GameServer,
-          input
+          input,
+          misc
         ) {
 
         window.buttons = window.buttons || [];
 
+        var relaxedJsonParse = function(str) {
+          try {
+            str = str.replace(/'/g, '"').replace(/(\w+)\:/g, '"$1":');
+            return JSON.parse(str);
+          } catch (e) {
+            console.error(e);  // eslint-disable-line
+          }
+        };
+
         var script = document.querySelector("script[hft-options]");
         if (script) {
-          try {
-            var opt = script.getAttribute("hft-options").replace(/'/g, '"').replace(/(\w+)\:/g, '"$1":');
-            hftOptions = JSON.parse(opt);
-          } catch (e) {
+          hftOptions = relaxedJsonParse(script.getAttribute("hft-options"));
+          if (!hftOptions) {
             console.error("Could not read hft-options from script:", opt);  // eslint-disable-line
-            console.error(e);  // eslint-disable-line
           }
         }
         hftOptions = hftOptions || {};
+        var args = misc.parseUrlQuery();
+        if (args.hftOptions) {
+          var opts = relaxedJsonParse(args.hftOptions);
+          if (opts) {
+            hftOptions = misc.mergeObjects(hftOptions, opts);
+          }
+        }
         var controllerId = hftOptions.reportMapping ? ("happyfuntimes-" + (hftOptions.controllerType || "1dpad-2button") + "-controller") : "standard";
         var maxGamepads = parseInt(hftOptions.maxGamepads) || 0;
 
@@ -1039,6 +1054,8 @@ define('hftctrl/controller-support',[
       var script = document.createElement("script");
       script.addEventListener('load', load);
       script.type = "text/javascript";
+      script.charset = "utf-8";
+      script.async = true;
       script.src = "http://localhost:18679/3rdparty/require.js";
       window.document.body.appendChild(script);
     }
