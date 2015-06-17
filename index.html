@@ -2,7 +2,7 @@
 <!-- this file is auto-generated from README.md. Do not edited directly -->
 <!--
 /**
- * @license HappyFunTimes 0.0.4 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+ * @license HappyFunTimes 0.0.6 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
  * Available via the MIT license.
  * see: http://github.com/greggman/happyfuntimes for details
  */
@@ -48,6 +48,8 @@ This enables you to easily use HappyFunTimes with any HTML5 game engine.</p>
 <p>Just put the <a href="https://github.com/greggman/hft-gamepad-api/blob/master/dist/happyfuntimes-gamepad-emu.min.js"><code>happyfuntimes-gamepad-emu.min.js</code></a>
 file somewhere and include it at the bottom of your HTML file</p>
 <pre><code>&lt;script src=&quot;happyfuntimes-gamepad-emu.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>Or use it directly</p>
+<pre><code>&lt;script src=&quot;http://cdn.happyfuntimes-extra.net/ctrl/$(version)s/happyfuntimes-gamepad-emu.min.js&quot;&gt;&lt;/script&gt;
 </code></pre><ul>
 <li>Then <a href="http://superhappyfuntimes.net">run happyfuntimes</a>.</li>
 <li>Start your game</li>
@@ -56,9 +58,12 @@ file somewhere and include it at the bottom of your HTML file</p>
 </ul>
 <p>In a moment the phone should connect to your game and offer a dpad and 2 buttons. You can connect
 any number of phones up to the limit of your WiFi setup.</p>
+<p><strong>WARNING!!! Will not work on a Corporate Network, Hotel, Internet Cafe. Most home networks should work
+though.</strong> To test use a simulator on the same machine or open another browser window to
+<code>http://localhost:18679</code></p>
 <p>It&#39;s safe to leave the script always on your page. If HappyFunTimes is not running locally
 the script as no effect.</p>
-<h2 id="note-note-note-note-note-note-">NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!!**</h2>
+<h2 id="note-note-note-note-note-note-">NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!! NOTE!!!!</h2>
 <p>While this will work, if your game is not designed for HappyFunTimes you&#39;re probably going to be
 slightly disappoinetd. By that I mean if your game is expecting an XBox 360 / PS3 controller with
 2 analog sticks, a dpad, 13 buttons you&#39;re probably not going to be happy with a single DPad
@@ -111,6 +116,14 @@ using a script tag like</p>
 <li><p>1lrpad</p>
 <p><img width="50%" height="50%" src="assets/1lrpad.png" /></p>
 </li>
+<li><p>touch</p>
+<p><img width="50%" height="50%" src="assets/touch.png" /></p>
+<p>Note: touch x and y are reported in <code>gamepad.axes[13]</code> and <code>gamepad.axes[14]</code>.
+The values are normalized with 0.0 in the center and -1 to 1 at the edges.
+You probably want to choose some range smaller than that to actually use
+because various mobile OSes like to do things near the edge of the
+screen like switch apps or make various UI elements appear.</p>
+</li>
 </ul>
 <p>You can also set a few boolean options in the form of</p>
 <pre><code>&lt;script src=&quot;happyfuntimes-gamepad-emu.js&quot; hft-options=&#39;{option:true}&#39;&gt;&lt;/script&gt;
@@ -139,7 +152,27 @@ and 4 axes. Setting <code>reportMapping</code> to true will make the script repo
 If you set this then when more than that many phones connect those players
 over the limit will be put in a waiting list. If other players quit they&#39;ll
 be added to the game in the order they connected. Also see <code>queue</code> in <a href="#api">API</a></p>
-<h2 id="api">API</h2>
+<p><code>provideOrientation</code></p>
+<p>Set to <code>true</code> to provide the phone&#39;s orientation. Imagine the phone in portrait mode
+lying flat on a table. In that case.</p>
+<pre><code>gamepad.axes[4] = y rotation. eg: rotation on table. Range 0 to 360
+gamepad.axes[5] = x rotation. eg: lift the phone to face you or tilt away from you. Range -180 to 180
+gamepad.axes[6] = z rotation. eg: tilt the phone to the left or right. Range -90 to 90
+</code></pre><p><code>provideAcceleration</code></p>
+<p>Set to <code>true</code> to provide motion data from the phone. All values are in meters per
+second squared. Note: different phones seem to have different sensitivities.
+Imagine the phone in portrait mode lying flat on a table. In that case.</p>
+<pre><code>gamepad.axes[7] = x motion: eg moving the phone left to right
+gamepad.axes[8] = y motion: eg moving the phone away from you or toward you (forward and back)
+gamepad.axes[9] = z motion: eg moving the phone above / below the table
+</code></pre><p><code>provideRotationRate</code></p>
+<p>Set to <code>true</code> to provide rotation rate data from the phone. All values are in degrees per
+second. Note: different phones seem to have different sensitivities.
+Imagine the phone in portrait mode lying flat on a table. In that case.</p>
+<pre><code>gamepad.axes[10] = y rotation. eg: rotation on table.
+gamepad.axes[11] = x rotation. eg: lift the phone to face you or tilt away from you.
+gamepad.axes[12] = z rotation. eg: tilt the phone to the left or right.
+</code></pre><h2 id="api">API</h2>
 <p>There&#39;s an extra <code>hft</code> property on gamepad objects provided by this script. It has
 some properties/functions you can use to interact with HappyFunTimes and the controller.</p>
 <p><code>color</code></p>
@@ -167,6 +200,11 @@ player into the game. If there no players waiting this is a no-op.</p>
 call <code>gamepad.hft.queue()</code> on that player&#39;s gamepad letting the next player play. Another is
 you have a round based game. At the end of a round you call <code>gamepad.hft.queue()</code> on all gamepads
 to get a fresh set of players.</p>
+<p><code>setOptions</code></p>
+<p>Let&#39;s you change a controller&#39;s controller type. These options are the same as the
+options listed above but they are per controller. The only valid per controller
+options are <code>controllerType</code>, <code>provideOrientation</code>, <code>provideAcceleration</code>,
+<code>provideRotationRate</code>.</p>
 <h2 id="get-involved-">GET INVOLVED!!!</h2>
 <p>Make some awesome games with HappyFunTimes!! If you have suggestions, ideas feel free to
 <a href="https://github.com/greggman/hft-gamepad-api/issues">add them</a> or
@@ -202,7 +240,7 @@ http-server -p 8081
 <li>Pull out your phone, Start Safari or Chrome and go to <code>http://happyfuntimes.net</code> (your phone must be on the same router as your computer).</li>
 </ul>
 <p>What&#39;s happening? HappyFunTimes is a web server. For this particular case it serves web pages to the the phone/simulator/controller windows.
-Your game (represented by test.html) runs where ever you&#39;re currently hosting it. For this case that&#39;s the web server we started with <code>http-server</code>.
+Your game (represented by test.html) runs whereever you&#39;re currently hosting it. For this case that&#39;s the web server we started with <code>http-server</code>.
 The script in the game will connect HappyFunTimes running on the same machine. It will give the controller files to HappyFunTimes.
 HappyFunTimes will then direct any controller that connects to it to load those files. The game and the controllers pass messages to
 each other through HappyFunTimes.</p>
@@ -234,6 +272,9 @@ be eating up your bandwidth.</p>
 add <code>// eslint-disable-line</code> to work around that</p>
 <pre><code>console.log(&quot;foobar&quot;);  // eslint-disable-line
 </code></pre><p>Yea, a little annoying. Sorry about that.</p>
+</li>
+<li><p>Make sure you have a good connection to your router from both your computer
+and your phone. Bad connections suck.</p>
 </li>
 </ul>
 

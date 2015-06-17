@@ -25,6 +25,10 @@ Or use it directly
 In a moment the phone should connect to your game and offer a dpad and 2 buttons. You can connect
 any number of phones up to the limit of your WiFi setup.
 
+**WARNING!!! Will not work on a Corporate Network, Hotel, Internet Cafe. Most home networks should work
+though.** To test use a simulator on the same machine or open another browser window to
+`http://localhost:18679`
+
 It's safe to leave the script always on your page. If HappyFunTimes is not running locally
 the script as no effect.
 
@@ -99,6 +103,16 @@ Controller Types:
 
     <img width="50%" height="50%" src="assets/1lrpad.png" />
 
+*   touch
+
+    <img width="50%" height="50%" src="assets/touch.png" />
+
+    Note: touch x and y are reported in `gamepad.axes[13]` and `gamepad.axes[14]`.
+    The values are normalized with 0.0 in the center and -1 to 1 at the edges.
+    You probably want to choose some range smaller than that to actually use
+    because various mobile OSes like to do things near the edge of the
+    screen like switch apps or make various UI elements appear.
+
 You can also set a few boolean options in the form of
 
     <script src="happyfuntimes-gamepad-emu.js" hft-options='{option:true}'></script>
@@ -138,6 +152,35 @@ If you set this then when more than that many phones connect those players
 over the limit will be put in a waiting list. If other players quit they'll
 be added to the game in the order they connected. Also see `queue` in [API](#api)
 
+`provideOrientation`
+
+Set to `true` to provide the phone's orientation. Imagine the phone in portrait mode
+lying flat on a table. In that case.
+
+    gamepad.axes[4] = y rotation. eg: rotation on table. Range 0 to 360
+    gamepad.axes[5] = x rotation. eg: lift the phone to face you or tilt away from you. Range -180 to 180
+    gamepad.axes[6] = z rotation. eg: tilt the phone to the left or right. Range -90 to 90
+
+`provideAcceleration`
+
+Set to `true` to provide motion data from the phone. All values are in meters per
+second squared. Note: different phones seem to have different sensitivities.
+Imagine the phone in portrait mode lying flat on a table. In that case.
+
+    gamepad.axes[7] = x motion: eg moving the phone left to right
+    gamepad.axes[8] = y motion: eg moving the phone away from you or toward you (forward and back)
+    gamepad.axes[9] = z motion: eg moving the phone above / below the table
+
+`provideRotationRate`
+
+Set to `true` to provide rotation rate data from the phone. All values are in degrees per
+second. Note: different phones seem to have different sensitivities.
+Imagine the phone in portrait mode lying flat on a table. In that case.
+
+    gamepad.axes[10] = y rotation. eg: rotation on table.
+    gamepad.axes[11] = x rotation. eg: lift the phone to face you or tilt away from you.
+    gamepad.axes[12] = z rotation. eg: tilt the phone to the left or right.
+
 ## API
 
 There's an extra `hft` property on gamepad objects provided by this script. It has
@@ -176,6 +219,13 @@ player into the game. If there no players waiting this is a no-op.
 call `gamepad.hft.queue()` on that player's gamepad letting the next player play. Another is
 you have a round based game. At the end of a round you call `gamepad.hft.queue()` on all gamepads
 to get a fresh set of players.
+
+`setOptions`
+
+Let's you change a controller's controller type. These options are the same as the
+options listed above but they are per controller. The only valid per controller
+options are `controllerType`, `provideOrientation`, `provideAcceleration`,
+`provideRotationRate`.
 
 ## GET INVOLVED!!!
 
@@ -219,7 +269,7 @@ Just type
 *   Pull out your phone, Start Safari or Chrome and go to `http://happyfuntimes.net` (your phone must be on the same router as your computer).
 
 What's happening? HappyFunTimes is a web server. For this particular case it serves web pages to the the phone/simulator/controller windows.
-Your game (represented by test.html) runs where ever you're currently hosting it. For this case that's the web server we started with `http-server`.
+Your game (represented by test.html) runs whereever you're currently hosting it. For this case that's the web server we started with `http-server`.
 The script in the game will connect HappyFunTimes running on the same machine. It will give the controller files to HappyFunTimes.
 HappyFunTimes will then direct any controller that connects to it to load those files. The game and the controllers pass messages to
 each other through HappyFunTimes.
@@ -257,3 +307,6 @@ You should probably read the [HappyFunTimes docs](http://docs.happyfuntimes.net/
         console.log("foobar");  // eslint-disable-line
 
     Yea, a little annoying. Sorry about that.
+
+*   Make sure you have a good connection to your router from both your computer
+    and your phone. Bad connections suck.
