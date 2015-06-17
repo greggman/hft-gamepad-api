@@ -89,14 +89,22 @@ img {
     user-select: none;
 }
 
-#full {
+#full, #touch {
     position: absolute;
-    display: none;
-    z-index: 4101;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
+}
+
+#touch {
+    z-index: 5;
+    color: white;
+}
+
+#full {
+    display: none;
+    z-index: 10;
     background-color: black;
     color: white;
 }
@@ -110,6 +118,27 @@ svg, img {
     user-select: none;
     pointer-events: none;
 }
+
+.noevents {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.whiteoutline {
+  text-shadow:
+    0px -2px 0 #000,
+    2px -2px 0 #000,
+    2px  0px 0 #000,
+    2px  2px 0 #000,
+    0px  2px 0 #000,
+   -2px  2px 0 #000,
+   -2px  0px 0 #000,
+   -2px -2px 0 #000;
+}
+
 .button {
     width: 110px;
     height: 110px;
@@ -130,71 +159,78 @@ svg, img {
 .layout-default #buttonA        { display: none; }
 .layout-default #buttonB        { display: none; }
 .layout-default #lrpad          { display: none; }
+.layout-default #touch          { display: none; }
 
 .layout-1button #dpad1          { display: none; }
 .layout-1button #dpad2          { display: none; }
 .layout-1button #buttonA        { right: 70px; }
 .layout-1button #buttonB        { display: none; }
 .layout-1button #lrpad          { display: none; }
+.layout-1button #touch          { display: none; }
 
 .layout-2button #dpad1          { display: none; }
 .layout-2button #dpad2          { display: none; }
 .layout-2button #buttonA        { left:  70px;   }
 .layout-2button #buttonB        { right: 70px;  }
 .layout-2button #lrpad          { display: none; }
+.layout-2button #touch          { display: none; }
 
 .layout-1dpad-1button #dpad1    { left: 70px; width: 160px; height: 160px; }
 .layout-1dpad-1button #dpad2    { display: none; }
 .layout-1dpad-1button #buttonA  { right: 70px;  }
 .layout-1dpad-1button #buttonB  { display: none; }
 .layout-1dpad-1button #lrpad    { display: none; }
+.layout-1dpad-1button #touch    { display: none; }
 
 .layout-1dpad-2button #dpad1    { left:  70px; width: 160px; height: 160px; }
 .layout-1dpad-2button #dpad2    { display: none; }
 .layout-1dpad-2button #buttonA  { right: 200px;  }
 .layout-1dpad-2button #buttonB  { right:  70px;  }
 .layout-1dpad-2button #lrpad    { display: none; }
+.layout-1dpad-2button #touch    { display: none; }
 
 .layout-1dpad #dpad1            { left:  70px; width: 160px; height: 160px; }
 .layout-1dpad #dpad2            { display: none; }
 .layout-1dpad #buttonA          { display: none; }
 .layout-1dpad #buttonB          { display: none; }
 .layout-1dpad #lrpad            { display: none; }
+.layout-1dpad #touch            { display: none; }
 
 .layout-2dpad #dpad1            { left:  70px; width: 160px; height: 160px; }
 .layout-2dpad #dpad2            { right: 70px; width: 160px; height: 160px; }
 .layout-2dpad #buttonA          { display: none; }
 .layout-2dpad #buttonB          { display: none; }
 .layout-2dpad #lrpad            { display: none; }
+.layout-2dpad #touch            { display: none; }
 
 .layout-1lrpad-1button #dpad1   { display: none; }
 .layout-1lrpad-1button #dpad2   { display: none; }
 .layout-1lrpad-1button #buttonA { right:   30px; }
 .layout-1lrpad-1button #buttonB { display: none; }
 .layout-1lrpad-1button #lrpad   { left:    30px; }
+.layout-1lrpad-1button #touch   { display: none; }
 
 .layout-1lrpad-2button #dpad1   { display: none; }
 .layout-1lrpad-2button #dpad2   { display: none; }
 .layout-1lrpad-2button #buttonA { right: 160px;  }
 .layout-1lrpad-2button #buttonB { right:  30px;  }
 .layout-1lrpad-2button #lrpad   { left:   30px;  }
+.layout-1lrpad-2button #touch   { display: none; }
 
 .layout-1lrpad #dpad1           { display: none; }
 .layout-1lrpad #dpad2           { display: none; }
 .layout-1lrpad #buttonA         { display: none; }
 .layout-1lrpad #buttonB         { display: none; }
 .layout-1lrpad #lrpad           { left:    30px; }
+.layout-1lrpad #touch           { display: none; }
 
+.layout-touch #dpad1           { display: none; }
+.layout-touch #dpad2           { display: none; }
+.layout-touch #buttonA         { display: none; }
+.layout-touch #buttonB         { display: none; }
+.layout-touch #lrpad           { display: none; }
+.layout-touch #touch           { display: block; }
 
-
-#inputarea {
-    position: absolute;
-    z-index: 4100;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-}
 
 /*
   and (min-device-width: 320px)

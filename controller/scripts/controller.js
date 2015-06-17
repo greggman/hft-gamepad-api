@@ -40,6 +40,7 @@ requirejs([
     'hft/misc/strings',
     'hft/misc/touch',
     '../3rdparty/chroma.min',
+//    '../3rdparty/gyronorm.complete.min',
   ], function(
     commonUI,
     GameClient,
@@ -48,12 +49,16 @@ requirejs([
     mobileHacks,
     strings,
     touch,
-    chroma) {
+    chroma /*,
+    GyroNorm */) {
 
   var $ = document.getElementById.bind(document);
   var globals = {
     debug: false,
     // orientation: "landscape-primary",
+    provideOrientation: false,
+    provideMotion: false,
+    provideRotationRate: false,
   };
   misc.applyUrlSettings(globals);
   mobileHacks.disableContextMenu();
@@ -68,6 +73,14 @@ requirejs([
       },
     },
   ]);
+
+  var needOrientationData = false;
+  var startOrientationData = function() {
+    needOrientationData = true;
+  };
+  var stopOrientationData = function() {
+  };
+
 
   var fullElem = $("full");
   var client = new GameClient();
@@ -113,6 +126,9 @@ requirejs([
       orientation: "none",
       lrpads: true,
     },
+    "touch": {
+      orientation: "none",
+    },
   };
 
   function handleColor(data) {
@@ -134,7 +150,8 @@ requirejs([
   }
 
   function handleOptions(data) {
-    var controllerType = data ? data.controllerType : undefined;
+    data = data || {};
+    var controllerType = data.controllerType;
     controllerType = (controllerType || "").replace(/s/g, "").toLowerCase();  // remove 's' so buttons -> button, dpads -> dpad
     if (!(controllerType in layouts)) {
       if (controllerType) {
@@ -151,6 +168,18 @@ requirejs([
 
     var layout = layouts[controllerType];
     commonUI.setOrientation(layout.orientation);
+
+    globals.provideOrientation  = data.provideOrientation;
+    globals.provideAcceleration = data.provideAcceleration;
+    globals.provideRotationRate = data.provideRotationRate;
+
+    if (globals.provideOrientation ||
+        globals.provideAcceleration ||
+        globals.provideRotationRate) {
+      startOrientationData(); // eslint-disable-line
+    } else {
+      stopOrientationData();  // eslint-disable-line
+    }
   }
 
   function handleFull() {
@@ -321,5 +350,69 @@ requirejs([
       { referenceElement: $("lrpad"), },
     ],
   });
+
+  // Setup the touch area
+  $("touch").addEventListener('pointermove', function(event) {
+    var target = event.target;
+    var position = input.getRelativeCoordinates(target, event);
+    client.sendCmd('touch', {
+      x: position.x / target.clientWidth  * 1000 | 0,
+      y: position.y / target.clientHeight * 1000 | 0,
+    });
+    event.preventDefault();
+  });
+
+  var gn = new GyroNorm();
+
+  function handleOrientationData(data) {
+    if (globals.provideOrientation) {
+      // data.do.alpha    ( deviceorientation event alpha value )
+      // data.do.beta     ( deviceorientation event beta value )
+      // data.do.gamma    ( deviceorientation event gamma value )
+      // data.do.absolute ( deviceorientation event absolute value )
+      client.sendCmd('orient', { a: data.do.alpha, b: data.do.beta, g: data.do.gamma, abs: data.do.absolute });
+    }
+
+    if (globals.provideAcceleration) {
+      // data.dm.x        ( devicemotion event acceleration x value )
+      // data.dm.y        ( devicemotion event acceleration y value )
+      // data.dm.z        ( devicemotion event acceleration z value )
+      client.sendCmd('accel', { x: data.dm.x, y: data.dm.y, z: data.dm.z });
+    }
+
+    // data.dm.gx       ( devicemotion event accelerationIncludingGravity x value )
+    // data.dm.gy       ( devicemotion event accelerationIncludingGravity y value )
+    // data.dm.gz       ( devicemotion event accelerationIncludingGravity z value )
+
+
+    if (globals.provideRotationRate) {
+      // data.dm.alpha    ( devicemotion event rotationRate alpha value )
+      // data.dm.beta     ( devicemotion event rotationRate beta value )
+      // data.dm.gamma    ( devicemotion event rotationRate gamma value )
+      client.sendCmd('rot', { a: data.dm.alpha, b: data.dm.beta, g: data.dm.gamma });
+    }
+  }
+
+  function setupDeviceOrientation() {
+    startOrientationData = function() {
+      if (!gn.isRunning()) {
+        gn.start(handleOrientationData);
+      }
+    };
+    stopOrientationData = function() {
+      if (gn.isRunning()) {
+        gn.stop(handleOrientationData);
+      }
+    };
+    // We need this because gn.init might
+    // not have returned before we start
+    // asking for data
+    if (needOrientationData) {
+      startOrientationData();
+    }
+  }
+
+  gn.init().then(setupDeviceOrientation);
+
 });
 

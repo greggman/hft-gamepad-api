@@ -1,13 +1,18 @@
     <!-- this is inserted into index.html by happyfuntimes -->
     <div id="gamearea" class="fixheight">
       <div id="buttons" class="layout-default hft-fullcenter fixheight">
-          <div id="dpads">
-              <div class="button" id="dpad1"></div>
-              <div class="button" id="dpad2"></div>
-              <div class="button" id="lrpad"></div>
-          </div>
-          <div class="button" id="buttonA"></div>
-          <div class="button" id="buttonB"></div>
+        <div id="dpads">
+            <div class="button" id="dpad1"></div>
+            <div class="button" id="dpad2"></div>
+            <div class="button" id="lrpad"></div>
+        </div>
+        <div class="button" id="buttonA"></div>
+        <div class="button" id="buttonB"></div>
+        <div id="touch">
+           <div class="hft-instruction hft-fullcenter whiteoutline noevents">
+               Touch to Control
+           </div>
+        </div>
       </div>
     </div>
     <div id="full">
@@ -139,3 +144,5 @@ linear-gradient(
   %(dark)s
 )
     </script>
+<script src="3rdparty/gyronorm.complete.min.js"></script>
+

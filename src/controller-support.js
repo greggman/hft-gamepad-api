@@ -152,7 +152,42 @@ define([
           var ndx = -1;
           var color;
 
-          var axes = [0, 0, 0, 0];
+          var AXIS_ORIENTATION_ALPHA = 4;
+          var AXIS_ORIENTATION_BETA  = 5;
+          var AXIS_ORIENTATION_GAMMA = 6;
+
+          var AXIS_ACCELERATION_X = 7;
+          var AXIS_ACCELERATION_Y = 8;
+          var AXIS_ACCELERATION_Z = 9;
+
+          var AXIS_ROTATION_RATE_ALPHA = 10;
+          var AXIS_ROTATION_RATE_BETA  = 11;
+          var AXIS_ROTATION_RATE_GAMMA = 12;
+
+          var AXIS_TOUCH_X = 13;
+          var AXIS_TOUCH_Y = 14;
+
+          var axes = [
+            0,  //  0 x0 pad0
+            0,  //  1 y0
+            0,  //  2 x1 pad1
+            0,  //  3 y1
+          ];
+
+          var extraAxes = [
+            0,  //  4 orientation alpha
+            0,  //  5 orientaiton beta
+            0,  //  6 orientation gamma
+            0,  //  7 acceleration x
+            0,  //  8 acceleration y
+            0,  //  9 acceleration z
+            0,  // 10 rotation rate alpha
+            0,  // 11 rotation rate beta
+            0,  // 12 rotation rate gamma
+            0,  // 13 touch x
+            0,  // 14 touch y
+          ];
+
           var buttons = [
             { pressed: false, value: 0, },  //  0 button A
             { pressed: false, value: 0, },  //  1 button B
@@ -228,10 +263,59 @@ define([
             }
           };
 
-          netPlayer.sendCmd('options', hftOptions);
+          var handleOrient = function(data) {
+            // console.log(JSON.stringify(data)); // eslint-disable-line
+            axes[AXIS_ORIENTATION_ALPHA] = data.a; // data.a / 180 - 1;  // range is suspposed to be 0 to 359
+            axes[AXIS_ORIENTATION_BETA]  = data.b; // data.b / 180;      // range is suspposed to be -180 to 180
+            axes[AXIS_ORIENTATION_GAMMA] = data.g; // data.g / 90;       // range is suspposed to be -90 to 90
+          };
+
+          var handleAccel = function(data) {
+            // console.log(JSON.stringify(data)); // eslint-disable-line
+            // These values are supposed to be in meters per second squared but I need to convert them to 0 to 1 values.
+            // A quick test seems to make them go to +/- around 50 at least on my iPhone5s but different on my android.
+            // Maybe I should keep track of max values and reset over time with some threshold?
+            // actually I'm just going to pass them through as is.
+            axes[AXIS_ACCELERATION_X] = data.x; //clamp(data.x / maxAcceleration, -1, 1);
+            axes[AXIS_ACCELERATION_Y] = data.y; //clamp(data.y / maxAcceleration, -1, 1);
+            axes[AXIS_ACCELERATION_Z] = data.z; //clamp(data.z / maxAcceleration, -1, 1);
+          };
+
+          var handleRot = function(data) {
+            // console.log(JSON.stringify(data)); // eslint-disable-line
+            axes[AXIS_ROTATION_RATE_ALPHA] = data.a;
+            axes[AXIS_ROTATION_RATE_BETA]  = data.b;
+            axes[AXIS_ROTATION_RATE_GAMMA] = data.g;
+          };
+
+          var handleTouch = function(data) {
+            axes[AXIS_TOUCH_X] = data.x / 500 - 1;
+            axes[AXIS_TOUCH_Y] = data.y / 500 - 1;
+          };
+
+          var setOptions = function(options) {
+            // only add the extra axes if we've requested that data
+            // this it so axes.length === 4 which woul be the default
+            if (axes.length === 4 &&
+                (options.provideOrientaiton ||
+                 options.provideAcceleration ||
+                 options.provideRotationRate ||
+                 (options.controllerType && options.controllerType.toLowerCase() === "touch"))) {
+              axes = axes.concat(extraAxes);
+            }
+
+            netPlayer.sendCmd('options', options);
+          };
+
+          setOptions(hftOptions);
+
           netPlayer.addEventListener('disconnect', disconnect);
           netPlayer.addEventListener('button', handleButton);
           netPlayer.addEventListener('dpad', handleDPad);
+          netPlayer.addEventListener('orient', handleOrient);
+          netPlayer.addEventListener('accel', handleAccel);
+          netPlayer.addEventListener('rot', handleRot);
+          netPlayer.addEventListener('touch', handleTouch);
 
           var makeActive = function(_ndx) {
             ndx = _ndx;
@@ -278,6 +362,7 @@ define([
           var hft = {
             makeActive: makeActive,
             queue: queue,
+            setOptions: setOptions,
           };
 
           Object.defineProperties(hft, {
