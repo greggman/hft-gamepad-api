@@ -297,7 +297,7 @@ define([
             // only add the extra axes if we've requested that data
             // this it so axes.length === 4 which woul be the default
             if (axes.length === 4 &&
-                (options.provideOrientaiton ||
+                (options.provideOrientation ||
                  options.provideAcceleration ||
                  options.provideRotationRate ||
                  (options.controllerType && options.controllerType.toLowerCase() === "touch"))) {
@@ -430,6 +430,12 @@ define([
           });
         };
 
+        var gameName = hftOptions.name || document.title || window.location.hostname;
+        var crapNameRE = /(^[0-9\.]+|localhost)$/;
+        if (crapNameRE.test(gameName)) {
+          gameName = "HappyFunTimes Gamepad Emu";
+        }
+
         var server = new GameServer({
           gameId: window.location.origin + window.location.pathname,
           reconnectOnDisconnect: true,
@@ -437,7 +443,7 @@ define([
           files: files,
           packageInfo: {
             happyFunTimes: {
-              name: "HappyFunTimes Gamepad Emulator",
+              name: gameName,
               apiVersion: "1.12.0",
             },
           },
