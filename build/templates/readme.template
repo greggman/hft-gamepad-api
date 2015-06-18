@@ -181,6 +181,10 @@ Imagine the phone in portrait mode lying flat on a table. In that case.
     gamepad.axes[11] = x rotation. eg: lift the phone to face you or tilt away from you.
     gamepad.axes[12] = z rotation. eg: tilt the phone to the left or right.
 
+`name`
+
+Only used if more than one game is running on HappyFunTimes.
+
 ## API
 
 There's an extra `hft` property on gamepad objects provided by this script. It has
