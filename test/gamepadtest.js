@@ -6,12 +6,96 @@
  *
  * You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
+
+var $ = document.getElementById.bind(document);
 var haveEvents = 'GamepadEvent' in window;
 var controllers = [];
+
+var controllerTypes = [
+    "1button",
+    "2button",
+    "1dpad-1button",
+    "1dpad-2button",
+    "1dpad",
+    "2dpad",
+    "1lrpad-1button",
+    "1lrpad-2button",
+    "1lrpad",
+    "touch",
+];
+
+var relaxedJsonParse = function(str) {
+  try {
+    str = str.replace(/'/g, '"').replace(/(\w+)\:/g, '"$1":');
+    return JSON.parse(str);
+  } catch (e) {
+    console.error(e);  // eslint-disable-line
+  }
+};
+
+var controllerOptions = relaxedJsonParse(document.querySelector("script[hft-options]").getAttribute("hft-options")) || {};
+
+controllerTypes.forEach(function(type) {
+  var option = document.createElement("option");
+  option.value = type
+  option.innerHTML = type;
+  if (type === controllerOptions.controllerType) {
+    option.selected = "selected";
+  }
+  $("controllerType").appendChild(option);
+});
+
+function getGamepads() {
+  return navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+}
+
+function sendOptionsToGamepads() {
+  var gamepads = getGamepads();
+  for (var ii = 0; ii < gamepads.length; ++ii) {
+    var gamepad = gamepads[ii];
+    if (gamepad && gamepad.hft) {
+      gamepad.hft.setOptions(controllerOptions);
+    }
+  }
+}
+
+function changeProvide(e) {
+  controllerOptions[e.target.id] = e.target.checked;
+  sendOptionsToGamepads();
+}
+
+Array.prototype.forEach.call(document.querySelectorAll("input[type=checkbox]"), function(checkbox) {
+  checkbox.addEventListener('change', changeProvide);
+});
+
+$("controllerType").addEventListener('change', function(e) {
+  // make every gamepad use new controller type
+  controllerOptions.controllerType = e.target.options[e.target.selectedIndex].value;
+  sendOptionsToGamepads();
+});
 
 function connecthandler(e) {
   addgamepad(e.gamepad);
 }
+
+function getAxesElements(d, numAxes) {
+  var a = d.getElementsByClassName("axes")[0];
+  var axes = a.getElementsByClassName("axis");
+  if (axes.length < numAxes) {
+    for (var i = axes.length; i < numAxes; ++i) {
+      e = document.createElement("progress");
+      e.className = "axis";
+      //e.id = "a" + i;
+      e.setAttribute("max", "2");
+      e.setAttribute("value", "1");
+      e.innerHTML = i;
+      a.appendChild(e);
+    }
+    axes = a.getElementsByClassName("axis");
+  }
+  return axes;
+}
+
 function addgamepad(gamepad) {
   var controllerInfo = controllers[gamepad.index];
   if (!controllerInfo) {
@@ -40,16 +124,8 @@ function addgamepad(gamepad) {
     d.appendChild(b);
     var a = document.createElement("div");
     a.className = "axes";
-    for (i=0; i<gamepad.axes.length; i++) {
-      e = document.createElement("progress");
-      e.className = "axis";
-      //e.id = "a" + i;
-      e.setAttribute("max", "2");
-      e.setAttribute("value", "1");
-      e.innerHTML = i;
-      a.appendChild(e);
-    }
     d.appendChild(a);
+    getAxesElements(d, gamepad.axes.length);
     document.getElementById("start").style.display = "none";
     document.body.appendChild(d);
   }
@@ -96,7 +172,7 @@ function updateStatus() {
       }
     }
 
-    var axes = d.getElementsByClassName("axis");
+    var axes = getAxesElements(d, controller.axes.length);
     for (var i=0; i<controller.axes.length; i++) {
       var a = axes[i];
       a.innerHTML = i + ": " + controller.axes[i].toFixed(4);
@@ -107,7 +183,7 @@ function updateStatus() {
 }
 
 function scangamepads() {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+  var gamepads = getGamepads();
   for (var i = 0; i < gamepads.length; ++i) {
     var gamepad = gamepads[i];
     if (gamepad) {

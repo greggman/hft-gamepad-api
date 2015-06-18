@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title>Gamepad API Test</title>
 <!--
 
 Gamepad API Test
@@ -13,7 +14,6 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 -->
-<script type="text/javascript" src="gamepadtest.js"></script>
 <style>
 .buttons, .axes {
   padding: 1em;
@@ -35,8 +35,14 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 </style>
 </head>
 <body>
-<h2 id="start">Press a button on your controller to start</h2>
-<a href="https://github.com/luser/gamepadtest"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+  <h2 id="start">Press a button on your controller to start</h2>
+  <label for="controllerType">Controller Type:</label>
+  <select id="controllerType"></select>
+  <label for="provideOrientation">Orientation</label><input type="checkbox" id="provideOrientation" value="false" />
+  <label for="provideAcceleration">Accleration</label><input type="checkbox" id="provideAcceleration" value="false" />
+  <label for="provideRotationRate">Rotation Rate</label><input type="checkbox" id="provideRotationRate" value="false" />
+  <a href="https://github.com/luser/gamepadtest"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
 </body>
-    <script hft-options='{"controllerType":"1dpad-2button",maxGamepads:2}' src="../dist/happyfuntimes-gamepad-emu.js" async></script>
+  <script hft-options='{"controllerType":"1dpad-2button",maxGamepads:2}' src="../dist/happyfuntimes-gamepad-emu.js" async></script>
+  <script type="text/javascript" src="gamepadtest.js"></script>
 </html>
