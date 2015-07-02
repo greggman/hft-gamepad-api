@@ -444,7 +444,7 @@ define([
           packageInfo: {
             happyFunTimes: {
               name: gameName,
-              apiVersion: "1.12.0",
+              apiVersion: "1.13.0",
             },
           },
         });
