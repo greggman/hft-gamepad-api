@@ -128,6 +128,7 @@ requirejs([
     },
     "touch": {
       orientation: "none",
+      orientationOptional: true,
     },
   };
 
@@ -167,7 +168,7 @@ requirejs([
     elem.className = classes.join(" ");
 
     var layout = layouts[controllerType];
-    commonUI.setOrientation(layout.orientation);
+    commonUI.setOrientation(layout.orientation, layout.orientationOptional);
 
     globals.provideOrientation  = data.provideOrientation;
     globals.provideAcceleration = data.provideAcceleration;
