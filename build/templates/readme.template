@@ -15,7 +15,7 @@ file somewhere and include it at the bottom of your HTML file
 
 Or use it directly
 
-    <script src="http://cdn.happyfuntimes-extra.net/ctrl/$(version)s/happyfuntimes-gamepad-emu.min.js"></script>
+    <script src="http://cdn.happyfuntimes-extra.net/ctrl/%(version)s/happyfuntimes-gamepad-emu.min.js"></script>
 
 * Then [run happyfuntimes](http://superhappyfuntimes.net).
 * Start your game
