@@ -321,28 +321,15 @@ define([
             ndx = _ndx;
             connected = true;
 
-            // If anyone knows a better way to pick super distinct colors please tell me
-            // This one goes around the color wheel at 90 degrees every for players
-            // For every other set of 4 players is offset 22.5. So you get
-            //
-            //      0     90    180    270   : players 0-3
-            //     22.5  112.5  202.5  292.5 : players 4-7
-            //     45    135    225    315   : players 8-11
-            //     67.5  157.5  247.5  337.5 : players 12-16
-            //
-            // after that repeat the same sequence + 12.5 degrees
-            // but at full saturation (vs 0.4 saturation for the first 16 players)
-            //
-            // After that those 2 sequences repeat but at value = 0.5 instead of value = 1
-            // I suspect that's too dark. Ideally the game itself should figure out
-            // a way to decide on colors and possibly different avatars or different patterns.
-            var majorHue = ndx % 4;
-            var minorHue = ndx / 4 | 0;
-            var tinyHue  = (ndx & 0x10) ? 0 : 1;
-            var hue = (majorHue * 90 + minorHue * 22.5 + tinyHue * 12.5) % 360;
-            var saturation = (ndx & 0x10) ? 1 : 0.4;
-            var value = (ndx & 0x20) ? 0.5 : 1;
-            var color = chroma.hsv(hue, saturation, value).hex();
+            var hue = (((ndx & 0x01) << 5) |
+                       ((ndx & 0x02) << 3) |
+                       ((ndx & 0x04) << 1) |
+                       ((ndx & 0x08) >> 1) |
+                       ((ndx & 0x10) >> 3) |
+                       ((ndx & 0x20) >> 5)) / 64.0;
+            var sat   = (ndx & 0x10) !== 0 ? 0.5 : 1.0;
+            var value = (ndx & 0x20) !== 0 ? 0.5 : 1.0;
+            var color = chroma.hsv(hue, sat, value).hex();
 
             // Send the color to the controller.
             this.color = color;
